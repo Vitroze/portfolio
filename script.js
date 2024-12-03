@@ -7,9 +7,8 @@ window.addEventListener("load", () => {
   if (loader) {
     loader.remove();
   }
-  for (let i = 0; i < allDivs.length; i++) {
-    allDivs[i].classList.remove("hidden");
-  }
+
+  Array.from(allDivs).forEach((div) => div.classList.remove("hidden"));
 });
 
 for (let i = 0; i < allDivs.length; i++) {
@@ -599,6 +598,8 @@ if (eCategoryLang) {
             ? "iframe"
             : "video"
         );
+
+        eMedia.loading = "lazy";
         eMedia.src = media.sLink;
         eMedia.classList.add("project_media");
 
@@ -619,7 +620,6 @@ if (eCategoryLang) {
         eProject.appendChild(eNoMedia);
       }
 
-      // Ajouter le bouton d'information
       const eButton = document.createElement("button");
       eButton.textContent = "More informations";
       eButton.addEventListener("click", () =>
@@ -627,11 +627,9 @@ if (eCategoryLang) {
       );
       eProject.appendChild(eButton);
 
-      // Ajouter le projet au fragment
       fragment.appendChild(eProject);
     });
 
-    // Ajouter tous les projets au conteneur en une seule opération
     eCategoryProject.appendChild(fragment);
   }
 
