@@ -169,6 +169,8 @@ a {
 
 .content_about {
   text-align: center;
+  width: calc(100% - 188px);
+  margin: 0 auto;
 }
 
 .language_list {
@@ -181,9 +183,11 @@ a {
   font-weight: 700;
 }
 
-/* .language_list p {
-  margin-left: 30%;
-} */
+.language_list p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .back {
   width: 61px;

@@ -408,6 +408,158 @@ if (eCategoryLang) {
       ],
       sLink: "Private",
     },
+    [23]: {
+      sLang: {
+        [1]: "GLua",
+      },
+      sTitle: "History Sanction",
+      sDescription:
+        "A system owned by VLife Group. A system that tracks player sanctions, even those that have been deleted. Compatible: SAM & Awarn3",
+      sMedia: [
+        {
+          sType: "Image",
+          sLink: "resource/casier.png",
+        },
+      ],
+    },
+    [24]: {
+      sLang: {
+        [1]: "GLua",
+      },
+      sTitle: "Escape Menu",
+      sDescription: "A system owned by VLife Group. A basic escape menu.",
+      sMedia: [
+        {
+          sType: "Image",
+          sLink: "resource/escape_menu.png",
+        },
+      ],
+    },
+    [25]: {
+      sLang: {
+        [1]: "GLua",
+      },
+      sTitle: "Animation Menu",
+      sDescription: "A system owned by VLife Group. A basic animation menu.",
+      sMedia: [
+        {
+          sType: "Image",
+          sLink: "resource/animation_menu.png",
+        },
+      ],
+    },
+    [26]: {
+      sLang: {
+        [1]: "GLua",
+      },
+      sTitle: "EMS System",
+      sDescription: "A system owned by VLife Group. A advanced EMS system.",
+      sMedia: [
+        {
+          sType: "Image",
+          sLink: "resource/ems_menu.png",
+        },
+      ],
+    },
+    [27]: {
+      sLang: {
+        [1]: "GLua",
+      },
+      sTitle: "F4 Menu",
+      sDescription:
+        "A system owned by VLife Group. A basic F4 menu (2 Design).",
+      sMedia: [
+        {
+          sType: "Image",
+          sLink: "resource/animation_menu.png",
+        },
+      ],
+    },
+    [28]: {
+      sLang: {
+        [1]: "GLua",
+      },
+      sTitle: "HUD",
+      sDescription: "A system owned by VLife Group. A basic HUD (2 Design).",
+      sMedia: [
+        {
+          sType: "Image",
+          sLink: "resource/hud_fun.png",
+        },
+        {
+          sType: "Image",
+          sLink: "resource/hud_serious.png",
+        },
+      ],
+    },
+    [29]: {
+      sLang: {
+        [1]: "GLua",
+      },
+      sTitle: "NPC Employer",
+      sDescription: "A system owned by VLife Group. A basic NPC Employer.",
+      sMedia: [
+        {
+          sType: "Image",
+          sLink: "resource/npc_employer.png",
+        },
+      ],
+    },
+    [30]: {
+      sLang: {
+        [1]: "GLua",
+      },
+      sTitle: "Report Bug",
+      sDescription: "A system owned by VLife Group. A basic report bug menu.",
+      sMedia: [
+        {
+          sType: "Image",
+          sLink: "resource/reportbug.png",
+        },
+      ],
+    },
+    [31]: {
+      sLang: {
+        [1]: "GLua",
+      },
+      sTitle: "Daily Rewards",
+      sDescription:
+        "A system owned by VLife Group. A basic daily rewards (3 Design).",
+      sMedia: [
+        {
+          sType: "Image",
+          sLink: "resource/daily.png",
+        },
+      ],
+    },
+    [32]: {
+      sLang: {
+        [1]: "GLua",
+      },
+      sTitle: "System TP",
+      sDescription: "A system owned by VLife Group. A basic system TP.",
+      sMedia: [
+        {
+          sType: "Image",
+          sLink: "resource/tp_1.png",
+        },
+      ],
+    },
+
+    [33]: {
+      sLang: {
+        [1]: "GLua",
+      },
+      sTitle: "Notification",
+      sDescription:
+        "A system owned by VLife Group. A basic system Notification.",
+      sMedia: [
+        {
+          sType: "Image",
+          sLink: "resource/notification.png",
+        },
+      ],
+    },
   };
 
   function Vitroze_OpenMoreInformations(tProject) {
@@ -463,7 +615,7 @@ if (eCategoryLang) {
         const eDivMedia = document.createElement("div");
         eDivMedia.classList.add("moreinformation_multimedia");
 
-        for (let i = 1; i < tProject.sMedia.length; i++) {
+        for (let i = 0; i < tProject.sMedia.length; i++) {
           const eMedia =
             tProject.sMedia[i].sType == "Image"
               ? document.createElement("img")
@@ -489,6 +641,16 @@ if (eCategoryLang) {
             eMedia.muted = true;
           }
 
+          eMedia.loading = "lazy";
+
+          eMedia.addEventListener("click", () => {
+            eMediaMain.src = eMedia.src;
+            eMediaMain.autoplay = true;
+            eMediaMain.loop = true;
+            eMediaMain.controls = true;
+            eMediaMain.muted = tProject.sMedia[i].bNoSound;
+          });
+
           eDivMedia.appendChild(eMedia);
         }
 
@@ -508,7 +670,7 @@ if (eCategoryLang) {
 
     const eButton = document.createElement("button");
 
-    if (tProject.sLink == "Private") {
+    if (tProject.sLink == "Private" || !tProject.sLink) {
       const eImage = document.createElement("img");
       eImage.src = "./resource/lock.png";
       eImage.alt = "Lock Icon";
@@ -544,10 +706,8 @@ if (eCategoryLang) {
   function Vitroze_ReloadProject(sLang = "All") {
     const eCategoryProject = document.querySelector(".list_projects");
 
-    // Nettoyer l'ancien contenu pour éviter des doublons
     eCategoryProject.innerHTML = "";
 
-    // Pré-filtrer les projets en fonction de la langue
     const filteredProjects = Object.keys(tProjects)
       .map((key) => tProjects[key])
       .filter(
@@ -555,15 +715,12 @@ if (eCategoryLang) {
           sLang === "All" || Object.values(project.sLang).includes(sLang)
       );
 
-    // Créer un fragment DOM pour minimiser les insertions directes
     const fragment = document.createDocumentFragment();
 
-    // Boucle sur les projets filtrés
     filteredProjects.forEach((project) => {
       const eProject = document.createElement("div");
       eProject.classList.add("project");
 
-      // Ajouter les langues
       const sLangList = Object.values(project.sLang).join(",");
       eProject.setAttribute("data-lang", sLangList);
 
@@ -578,12 +735,10 @@ if (eCategoryLang) {
 
       eProject.appendChild(eLanguage);
 
-      // Ajouter le titre
       const eTitle = document.createElement("h1");
       eTitle.textContent = project.sTitle;
       eProject.appendChild(eTitle);
 
-      // Ajouter les médias
       if (
         project.sMedia &&
         Array.isArray(project.sMedia) &&
