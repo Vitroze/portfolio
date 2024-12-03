@@ -507,30 +507,6 @@ if (eCategoryLang) {
     eDescription.classList.add("moreinformation_text");
     eMenu.appendChild(eDescription);
 
-    // const eButton = document.createElement("button");
-    // // eButton.textContent = "Download";
-    // eButton.addEventListener("click", () => {
-    //   if (tProject.sLink == "Private") {
-    //     return;
-    //   }
-
-    //   window.open(tProject.sLink);
-    // });
-
-    // if (tProject.sLink == "Private") {
-    //   eButton.disabled = true;
-
-    //   const eImage = document.createElement("img");
-    //   eImage.src = "./resource/lock.png";
-    //   eButton.appendChild(eImage);
-    // }
-
-    // eButton.classList.add(
-    //   tProject.sLink == "Private"
-    //     ? "moreinformation_buttonlock"
-    //     : "moreinformation_button"
-    // );
-
     const eButton = document.createElement("button");
 
     if (tProject.sLink == "Private") {
@@ -568,65 +544,71 @@ if (eCategoryLang) {
 
   function Vitroze_ReloadProject(sLang = "All") {
     const eCategoryProject = document.querySelector(".list_projects");
-    for (let i = 1; i <= Object.keys(tProjects).length; i++) {
-      if (
-        sLang != "All" &&
-        !Object.values(tProjects[i].sLang).includes(sLang)
-      ) {
-        continue;
-      }
 
+    // Nettoyer l'ancien contenu pour éviter des doublons
+    eCategoryProject.innerHTML = "";
+
+    // Pré-filtrer les projets en fonction de la langue
+    const filteredProjects = Object.keys(tProjects)
+      .map((key) => tProjects[key])
+      .filter(
+        (project) =>
+          sLang === "All" || Object.values(project.sLang).includes(sLang)
+      );
+
+    // Créer un fragment DOM pour minimiser les insertions directes
+    const fragment = document.createDocumentFragment();
+
+    // Boucle sur les projets filtrés
+    filteredProjects.forEach((project) => {
       const eProject = document.createElement("div");
       eProject.classList.add("project");
 
-      const sLangList = Object.values(tProjects[i].sLang).join(",");
+      // Ajouter les langues
+      const sLangList = Object.values(project.sLang).join(",");
       eProject.setAttribute("data-lang", sLangList);
 
       const eLanguage = document.createElement("div");
       eLanguage.classList.add("langlist");
 
-      for (let iLang in tProjects[i].sLang) {
+      Object.values(project.sLang).forEach((lang) => {
         const eLang = document.createElement("img");
-        eLang.src = `./resource/${tLanguages[tProjects[i].sLang[iLang]]}`;
+        eLang.src = `./resource/${tLanguages[lang]}`;
         eLanguage.appendChild(eLang);
-      }
+      });
 
       eProject.appendChild(eLanguage);
 
+      // Ajouter le titre
       const eTitle = document.createElement("h1");
-      eTitle.textContent = tProjects[i].sTitle;
+      eTitle.textContent = project.sTitle;
       eProject.appendChild(eTitle);
 
+      // Ajouter les médias
       if (
-        tProjects[i].sMedia &&
-        Array.isArray(tProjects[i].sMedia) &&
-        tProjects[i].sMedia.length > 0
+        project.sMedia &&
+        Array.isArray(project.sMedia) &&
+        project.sMedia.length > 0
       ) {
-        const iRandom = Math.floor(Math.random() * tProjects[i].sMedia.length);
-
-        const eMedia =
-          tProjects[i].sMedia[iRandom].sType == "Image"
-            ? document.createElement("img")
-            : tProjects[i].sMedia[iRandom].sLink.includes("youtube")
-            ? document.createElement("iframe")
-            : document.createElement("video");
-        eMedia.src = tProjects[i].sMedia[iRandom].sLink;
+        const iRandom = Math.floor(Math.random() * project.sMedia.length);
+        const media = project.sMedia[iRandom];
+        const eMedia = document.createElement(
+          media.sType === "Image"
+            ? "img"
+            : media.sLink.includes("youtube")
+            ? "iframe"
+            : "video"
+        );
+        eMedia.src = media.sLink;
         eMedia.classList.add("project_media");
 
-        if (
-          tProjects[i].sMedia[iRandom].sType == "Video" &&
-          eMedia.tagName == "VIDEO"
-        ) {
+        if (media.sType === "Video" && eMedia.tagName === "VIDEO") {
           eMedia.autoplay = true;
           eMedia.loop = true;
           eMedia.controls = true;
-        }
-
-        if (
-          tProjects[i].sMedia[iRandom].bNoSound &&
-          tProjects[i].sMedia[iRandom].sType == "Video"
-        ) {
-          eMedia.muted = true;
+          if (media.bNoSound) {
+            eMedia.muted = true;
+          }
         }
 
         eProject.appendChild(eMedia);
@@ -637,18 +619,20 @@ if (eCategoryLang) {
         eProject.appendChild(eNoMedia);
       }
 
+      // Ajouter le bouton d'information
       const eButton = document.createElement("button");
       eButton.textContent = "More informations";
-      eButton.addEventListener("click", () => {
-        Vitroze_OpenMoreInformations(tProjects[i]);
-      });
-
+      eButton.addEventListener("click", () =>
+        Vitroze_OpenMoreInformations(project)
+      );
       eProject.appendChild(eButton);
 
-      eCategoryLang.appendChild(eProject);
+      // Ajouter le projet au fragment
+      fragment.appendChild(eProject);
+    });
 
-      eCategoryProject.appendChild(eProject);
-    }
+    // Ajouter tous les projets au conteneur en une seule opération
+    eCategoryProject.appendChild(fragment);
   }
 
   for (let sLang in tLanguages) {
