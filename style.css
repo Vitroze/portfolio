@@ -29,7 +29,7 @@ button {
 }
 
 .navbar {
-  display: block;
+  display: fixed;
   width: 100%;
   clear: both;
 }
@@ -442,10 +442,11 @@ button,
 } */
 
 .list_projects {
-  max-width: 1732px;
-  max-height: 578px;
   position: relative;
-  left: 94px;
+
+  max-width: calc(100% - 188px);
+  max-height: 578px;
+  margin: 0 auto;
   margin-bottom: 50px;
 
   display: flex;
@@ -647,11 +648,13 @@ button,
   transform: translateX(-50%);
 
   font-size: 24px;
+  /* Extrabold */
+  font-weight: 800;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .moreinformation_menu .moreinformation_button:hover {

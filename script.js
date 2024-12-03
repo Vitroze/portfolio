@@ -507,23 +507,53 @@ if (eCategoryLang) {
     eDescription.classList.add("moreinformation_text");
     eMenu.appendChild(eDescription);
 
+    // const eButton = document.createElement("button");
+    // // eButton.textContent = "Download";
+    // eButton.addEventListener("click", () => {
+    //   if (tProject.sLink == "Private") {
+    //     return;
+    //   }
+
+    //   window.open(tProject.sLink);
+    // });
+
+    // if (tProject.sLink == "Private") {
+    //   eButton.disabled = true;
+
+    //   const eImage = document.createElement("img");
+    //   eImage.src = "./resource/lock.png";
+    //   eButton.appendChild(eImage);
+    // }
+
+    // eButton.classList.add(
+    //   tProject.sLink == "Private"
+    //     ? "moreinformation_buttonlock"
+    //     : "moreinformation_button"
+    // );
+
     const eButton = document.createElement("button");
-    eButton.textContent = "Download";
+
+    if (tProject.sLink == "Private") {
+      const eImage = document.createElement("img");
+      eImage.src = "./resource/lock.png";
+      eImage.alt = "Lock Icon";
+      eImage.classList.add("button_icon");
+      eButton.appendChild(eImage);
+
+      eButton.disabled = true;
+    }
+
+    const eText = document.createElement("span");
+    eText.textContent = "Download";
+    eText.classList.add("button_text");
+    eButton.appendChild(eText);
+
     eButton.addEventListener("click", () => {
       if (tProject.sLink == "Private") {
         return;
       }
-
       window.open(tProject.sLink);
     });
-
-    if (tProject.sLink == "Private") {
-      eButton.disabled = true;
-
-      const eImage = document.createElement("img");
-      eImage.src = "./resource/lock.png";
-      eButton.appendChild(eImage);
-    }
 
     eButton.classList.add(
       tProject.sLink == "Private"
@@ -610,16 +640,8 @@ if (eCategoryLang) {
       const eButton = document.createElement("button");
       eButton.textContent = "More informations";
       eButton.addEventListener("click", () => {
-        // if (tProjects[i].sLink == "Private") {
-        //   alert("This project is private.");
-        // } else {
-        //   window.open(tProjects[i].sLink);
-        // }
-
         Vitroze_OpenMoreInformations(tProjects[i]);
       });
-
-      // Si projet privé alors on désactive le bouton et on ajoute une image de cadenas
 
       eProject.appendChild(eButton);
 
@@ -633,7 +655,6 @@ if (eCategoryLang) {
     const eLang = document.createElement("button");
     eLang.classList.add("language_button");
     eLang.setAttribute("data-lang", sLang);
-    //eLang.style.backgroundImage = `url(./resource/${tLanguages[sLang]})`;
 
     eCategoryLang.appendChild(eLang);
 
