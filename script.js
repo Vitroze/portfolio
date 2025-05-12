@@ -1,21 +1,21 @@
 const allDivs = document.body.getElementsByTagName("*");
-const loader = document.querySelector(".loading");
+// const loader = document.querySelector(".loading");
 
-window.addEventListener("load", () => {
-  loader.classList.add("fondu-out");
+// window.addEventListener("load", () => {
+//   loader.classList.add("fondu-out");
 
-  if (loader) {
-    loader.remove();
-  }
+//   if (loader) {
+//     loader.remove();
+//   }
 
-  Array.from(allDivs).forEach((div) => div.classList.remove("hidden"));
-});
+//   Array.from(allDivs).forEach((div) => div.classList.remove("hidden"));
+// });
 
-for (let i = 0; i < allDivs.length; i++) {
-  if (!allDivs[i].className.includes("loading")) {
-    allDivs[i].classList.add("hidden");
-  }
-}
+// for (let i = 0; i < allDivs.length; i++) {
+//   if (!allDivs[i].className.includes("loading")) {
+//     allDivs[i].classList.add("hidden");
+//   }
+// }
 
 const tBarProgress = document.querySelectorAll(".bar_language");
 
