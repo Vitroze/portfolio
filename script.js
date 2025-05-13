@@ -1,21 +1,25 @@
-const allDivs = document.body.getElementsByTagName("*");
-// const loader = document.querySelector(".loading");
+const allDivs = document.body.querySelectorAll("body > *");
 
-// window.addEventListener("load", () => {
-//   loader.classList.add("fondu-out");
+window.addEventListener("load", () => {
+  const oLoader = document.querySelector(".loading");
 
-//   if (loader) {
-//     loader.remove();
-//   }
+  if (oLoader) {
+    for (let i = 0; i < allDivs.length; i++) {
+      if (!allDivs[i].className.includes("loading")) {
+        allDivs[i].classList.remove("hidden");
+      }
+    }
 
-//   Array.from(allDivs).forEach((div) => div.classList.remove("hidden"));
-// });
+    oLoader.remove();
+  }
+});
 
-// for (let i = 0; i < allDivs.length; i++) {
-//   if (!allDivs[i].className.includes("loading")) {
-//     allDivs[i].classList.add("hidden");
-//   }
-// }
+for (let i = 0; i < allDivs.length; i++) {
+  if (!allDivs[i].className.includes("loading")) {
+    console.log(allDivs[i].className);
+    allDivs[i].classList.add("hidden");
+  }
+}
 
 const tBarProgress = document.querySelectorAll(".bar_language");
 
@@ -33,13 +37,13 @@ const eCategoryLang = document.querySelector(".list_language");
 
 if (eCategoryLang) {
   const tLanguages = {
-    GLua: "lua_glua.png",
-    Python: "python.png",
-    JS: "js.png",
-    HTML_CSS: "html_css.png",
-    CSharp: "csharp.png",
-    Cpp: "cpp.png",
-    Batch: "batch.png",
+    GLua: "logos/lua_glua.svg",
+    Python: "logos/python.svg",
+    JS: "logos/js.svg",
+    HTML_CSS: "logos/html_css.svg",
+    CSharp: "logos/csharp.svg",
+    Cpp: "logos/cpp.svg",
+    Batch: "logos/batch.svg",
   };
 
   const tProjects = {
@@ -107,7 +111,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/alpr.png",
+          sLink: "resource/creations/alpr.png",
         },
       ],
       sLink: "Private",
@@ -138,7 +142,7 @@ if (eCategoryLang) {
         [1]: "CSharp",
       },
       sTitle: "French Callout - LSPDFR",
-      sDescription: "A callout for LSPDFR (GTA V). PROJET OUTDATED.",
+      sDescription: "A callout for LSPDFR (GTA V). PROJECT OUTDATED.",
       sMedia: [],
       sLink: "Private",
     },
@@ -152,7 +156,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Video",
-          sLink: "resource/keypad_arduino.mp4",
+          sLink: "resource/creations/keypad_arduino.mp4",
           bNoSound: true,
         },
       ],
@@ -180,7 +184,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/presentation_html.png",
+          sLink: "resource/creations/presentation_html.png",
         },
       ],
       sLink: "Private",
@@ -196,7 +200,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/presentation_js.png",
+          sLink: "resource/creations/presentation_js.png",
         },
       ],
       sLink: "Private",
@@ -212,7 +216,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/presentation_arduino.png",
+          sLink: "resource/creations/presentation_arduino.png",
         },
       ],
       sLink: "Private",
@@ -228,7 +232,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/presentation_motor.png",
+          sLink: "resource/creations/presentation_motor.png",
         },
       ],
       sLink: "Private",
@@ -244,15 +248,15 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/robot_optimized_square.gif",
+          sLink: "resource/creations/robot_optimized_square.gif",
         },
         {
           sType: "Image",
-          sLink: "resource/robot_square.gif",
+          sLink: "resource/creations/robot_square.gif",
         },
         {
           sType: "Image",
-          sLink: "resource/robot_line.gif",
+          sLink: "resource/creations/robot_line.gif",
         },
       ],
       sLink: "Private",
@@ -268,7 +272,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/presentation_motor.png",
+          sLink: "resource/creations/presentation_motor.png",
         },
       ],
       sLink: "Private",
@@ -284,7 +288,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/trello_googlesheet.png",
+          sLink: "resource/creations/trello_googlesheet.png",
         },
       ],
       sLink: "Private",
@@ -355,7 +359,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Video",
-          sLink: "resource/armory_police.mp4",
+          sLink: "resource/creations/armory_police.mp4",
           bNoSound: true,
         },
       ],
@@ -371,7 +375,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Video",
-          sLink: "resource/tracker_phone.mp4",
+          sLink: "resource/creations/tracker_phone.mp4",
           bNoSound: true,
         },
       ],
@@ -383,11 +387,12 @@ if (eCategoryLang) {
         [1]: "GLua",
       },
       sTitle: "Clothing System",
-      sDescription: "A system that can trace any telephone number on the map.",
+      sDescription:
+        "A system that allows you to change outfits while keeping the same head.",
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/clothing.png",
+          sLink: "resource/creations/clothing.png",
           bNoSound: true,
         },
       ],
@@ -402,7 +407,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/site.png",
+          sLink: "resource/creations/site.png",
           bNoSound: true,
         },
       ],
@@ -418,7 +423,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/casier.png",
+          sLink: "resource/creations/casier.png",
         },
       ],
     },
@@ -431,7 +436,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/escape_menu.png",
+          sLink: "resource/creations/escape_menu.png",
         },
       ],
     },
@@ -444,7 +449,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/animation_menu.png",
+          sLink: "resource/creations/animation_menu.png",
         },
       ],
     },
@@ -457,7 +462,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/ems_menu.png",
+          sLink: "resource/creations/ems_menu.png",
         },
       ],
     },
@@ -471,7 +476,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/animation_menu.png",
+          sLink: "resource/creations/animation_menu.png",
         },
       ],
     },
@@ -484,11 +489,11 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/hud_fun.png",
+          sLink: "resource/creations/hud_fun.png",
         },
         {
           sType: "Image",
-          sLink: "resource/hud_serious.png",
+          sLink: "resource/creations/hud_serious.png",
         },
       ],
     },
@@ -501,7 +506,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/npc_employer.png",
+          sLink: "resource/creations/npc_employer.png",
         },
       ],
     },
@@ -514,7 +519,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/reportbug.png",
+          sLink: "resource/creations/reportbug.png",
         },
       ],
     },
@@ -528,7 +533,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/daily.png",
+          sLink: "resource/creations/daily.png",
         },
       ],
     },
@@ -541,7 +546,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/tp_1.png",
+          sLink: "resource/creations/tp_1.png",
         },
       ],
     },
@@ -556,7 +561,7 @@ if (eCategoryLang) {
       sMedia: [
         {
           sType: "Image",
-          sLink: "resource/notification.png",
+          sLink: "resource/creations/notification.png",
         },
       ],
     },
@@ -571,6 +576,12 @@ if (eCategoryLang) {
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
+        eBackground.remove();
+      }
+    });
+
+    eBackground.addEventListener("click", (e) => {
+      if (e.target === eBackground) {
         eBackground.remove();
       }
     });
@@ -672,7 +683,7 @@ if (eCategoryLang) {
 
     if (tProject.sLink == "Private" || !tProject.sLink) {
       const eImage = document.createElement("img");
-      eImage.src = "./resource/lock.png";
+      eImage.src = "./resource/lock.svg";
       eImage.alt = "Lock Icon";
       eImage.classList.add("button_icon");
       eButton.appendChild(eImage);
@@ -776,7 +787,7 @@ if (eCategoryLang) {
       }
 
       const eButton = document.createElement("button");
-      eButton.textContent = "More informations";
+      eButton.textContent = "More information";
       eButton.addEventListener("click", () =>
         Vitroze_OpenMoreInformations(project)
       );
