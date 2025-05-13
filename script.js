@@ -4,13 +4,13 @@ window.addEventListener("load", () => {
   const oLoader = document.querySelector(".loading");
 
   if (oLoader) {
+    oLoader.remove();
+
     for (let i = 0; i < allDivs.length; i++) {
       if (!allDivs[i].className.includes("loading")) {
         allDivs[i].classList.remove("hidden");
       }
     }
-
-    oLoader.remove();
   }
 });
 
