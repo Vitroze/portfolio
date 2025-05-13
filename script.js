@@ -22,7 +22,6 @@ for (let i = 0; i < allDivs.length; i++) {
 }
 
 const tBarProgress = document.querySelectorAll(".bar_language");
-
 if (tBarProgress.length > 0) {
   tBarProgress.forEach((eBar) => {
     let iBarValue = eBar.getAttribute("data-progress");
@@ -34,7 +33,6 @@ if (tBarProgress.length > 0) {
 }
 
 const eCategoryLang = document.querySelector(".list_language");
-
 if (eCategoryLang) {
   const tLanguages = {
     GLua: "logos/lua_glua.svg",
