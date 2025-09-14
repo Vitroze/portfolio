@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -13,69 +13,68 @@
     />
   </head>
   <body>
-    <div class="loading">
-      <div class="loading_text">
-        <img src="resource/wave.svg" alt="Wave" class="loading_wave" />
-        <p class="loading_p">
-          This page is actually<span class="loading_animation">loading</span>...
-        </p>
-      </div>
-
-      <div class="loading-parent-circle">
-        <div class="loading-center-circle">
-          <div class="loading-outer-circle"></div>
-          <div class="loading-circle">
-            <div class="loading-rotating-arc"></div>
-          </div>
+    <div class="home" id="about">
+      <nav class="navbar">
+        <p class="nav-title">Vitroze</p>
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
         </div>
+
+        <div class="nav-right">
+          <a href="https://www.google.com/"> <img src="resource/nav/discord.svg"/></a>
+          <a href="https://github.com/Vitroze"> <img src="resource/nav/github.svg"/></a>
+          <a href="#fr"><img src="resource/nav/french.svg" alt="" /></a>
+      </nav>
+
+      <div class="intro">
+        <p class="Hello">Hi,</p>
+        <p class="Name">I'm Vitroze</p>
+        <p class="Description">French game developer passionate about Lua and Python, with years of experience crafting custom addons for Garry’s Mod and exploring new dimensions of creativity.</p>
       </div>
+
+      <div class="circle"></div>
+      <div class="bar"></div>
     </div>
 
-    <div class="welcome">
-      <img src="resource/wave.svg" alt="Wave" class="wave" />
-      <h1 class="welcome_title">
-        Hey I'm <span class="welcome_name">Vitroze,</span>
-      </h1>
+    <div class="skills" id="skills">
+      <h class="Title">Skills</h>
+      <p class="Description">Languages and tools I’ve honed to tackle any coding challenge.</p>
+
+      <!-- <div class="lines">
+        <div class="language-skill">
+          <img class="lang-logo" src="resource/logos/python.svg" alt="Python" />
+          <p class="lang-name">Python</p>
+
+          <div class="lang-stars">
+            <img src="resource/star_fill.svg" alt="1 star" />
+            <img src="resource/star.svg" alt="1 star" />
+            <img src="resource/star.svg" alt="1 star" />
+          </div>  
+        </div>
+
+        <p class="Desc">Developed a wide range of custom addons on the game Garry’s Mod, gaining in-depth expertise in Lua and GLua scripting.Developed a wide range of custom addons on the game Garry’s Mod, gaining in-depth expertise in Lua and GLua scripting.</p>
+      </div> -->
+
     </div>
 
-    <div class="job">
-      <img src="resource/flag_french.svg" alt="Developer" class="job_icon" />
-      <p>Developer</p>
-    </div>
+    <div class="projects" id="projects">
+      <h class="Title">Projects</h>
+      <p class="Description">A showcase of my work, from addons to coding creative projects.</p>
 
-    <nav class="navbar">
-      <a href="about_me.html"
-        ><li class="navbar_list">
-          About <span class="selectbar_bold">Me</span>
-        </li></a
-      >
-      <a href="my_skills.html"
-        ><li class="navbar_list">
-          My <span class="selectbar_bold">Skills</span>
-        </li></a
-      >
-      <a href="my_creations.html">
-        <li class="navbar_list">
-          My <span class="selectbar_bold">Creations</span>
-        </li></a
-      >
-    </nav>
+        <li class="deroulant"><a href="#">Cours Complets e</a>
+          <ul class="sous">
+            <li><a href="#">Cours HTML et CSS</a></li>
+            <li><a href="#">Cours JavaScript</a></li>
+            <li><a href="#">Cours PHP et MySQL</a></li>
+          </ul>
+        </li>
 
-    <footer>
-      <div class="discord">
-        <img
-          src="resource/footer/discord.svg"
-          alt="Discord Icon"
-          class="icon"
-        />
-        <span>@vitroze_gaming</span>
-      </div>
-      <div class="github">
-        <img src="resource/footer/github.svg" alt="GitHub Icon" class="icon" />
-        <a href="https://github.com/Vitroze"><span>Vitroze</span></a>
-      </div>
-    </footer>
+      <footer>
+        <p>&copy; 2025 Vitroze. Tous droits réservés.</p>
+      </footer>
 
-    <script src="script.js" defer></script>
+      <script src="script.js"></script>
   </body>
 </html>
