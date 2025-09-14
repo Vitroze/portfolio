@@ -343,7 +343,7 @@ body {
     margin-bottom: 0px;
 }
 
-.skills .Title {
+.skills .Title, .project-title {
     font-size: 48px;
     font-weight: 600;
     margin-bottom: 50px;
@@ -666,7 +666,30 @@ body {
   font-weight: 600;
 }
 
+.projects-list {
+  display: flex;
+  gap: 10px;
+  margin-top: 50px;
+  padding-bottom: 10px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #71717A #0B0B0B;
+}
+
+.projects-list::-webkit-scrollbar {
+  height: 2px;
+}
+
+.projects-list::-webkit-scrollbar-thumb {
+  background: #71717A;
+}
+
+.projects-list::-webkit-scrollbar-thumb:hover {
+  background: #0B0B0B;
+}
+
 .project-card {
+  flex: 0 0 auto;
   position: relative;
   width: 495px;
   height: 260px;
@@ -697,4 +720,70 @@ body {
 
 .project-card:hover::before {
   animation: gradientShift 1.5s linear infinite;
+}
+
+.project-title {
+    font-size: 25px;
+    font-weight: 600;
+    margin: 20px 30px 10px 30px;
+}
+
+.project-tags {
+    display: flex;
+    gap: 6px;
+    margin: 0 30px 14px 30px;
+}
+
+.tag {
+    background-color: #181818;
+    border-radius: 8px;
+    padding: 4.5px 12px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.project-description {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(161, 161, 170, 0.80);
+    margin: 0 30px 20px 30px;
+    width: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: justify;
+}
+
+.project-links {
+    position: absolute;
+    bottom: 20px;
+    left: 30px;
+    display: flex;
+    gap: 10px;
+}
+
+.project-links .details, .project-links .download {
+    width: 35px;
+    height: 35px;
+    background-color: #181818;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.project-links .details:hover, .project-links .download:hover {
+    background-color: #FFFF;
+}
+
+.project-links .details img, .project-links .download img {
+    filter: invert(100%);
+    transition: filter 0.3s;
+}
+
+.project-links .details:hover img, .project-links .download:hover img {
+    filter: invert(0%);
 }
