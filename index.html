@@ -11,27 +11,29 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+
   </head>
   <body>
+
     <div class="home" id="about">
       <nav class="navbar">
         <p class="nav-title">Vitroze</p>
         <div class="nav-links">
-          <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#projects">Projects</a>
+          <a href="#about" sIDLanguage="about">About</a>
+          <a href="#skills" sIDLanguage="skills">Skills</a>
+          <a href="#projects" sIDLanguage="projects">Projects</a>
         </div>
 
         <div class="nav-right">
-          <a href="https://www.google.com/"> <img src="resource/nav/discord.svg"/></a>
+          <a href="https://discord.com/users/348537418045194250"> <img src="resource/nav/discord.svg"/></a>
           <a href="https://github.com/Vitroze"> <img src="resource/nav/github.svg"/></a>
-          <a href="#fr"><img src="resource/nav/french.svg" alt="" /></a>
+          <a href="#" id="lang-select"><img id="lang-icon" src="resource/nav/fr.svg" alt="" /></a>
       </nav>
 
       <div class="intro">
-        <p class="Hello">Hi,</p>
-        <p class="Name">I'm Vitroze</p>
-        <p class="Description">French game developer passionate about Lua and Python, with years of experience crafting custom addons for Garry’s Mod and exploring new dimensions of creativity.</p>
+        <p class="Hello" sIDLanguage="hi">Hi,</p>
+        <p class="Name" sIDLanguage="Name">I'm Vitroze</p>
+        <p class="Description" sIDLanguage="Description">French game developer passionate about Lua and Python, with years of experience crafting custom addons for Garry’s Mod and exploring new dimensions of creativity.</p>
       </div>
 
       <div class="circle"></div>
@@ -39,8 +41,8 @@
     </div>
 
     <div class="skills" id="skills">
-      <h class="Title">Skills</h>
-      <p class="Description">Languages and tools I’ve honed to tackle any coding challenge.</p>
+      <h class="Title" sIDLanguage = "skills" >Skills</h>
+      <p class="Description" sIDLanguage = "DescSkills" >Languages and tools I’ve honed to tackle any coding challenge.</p>
 
       <!-- <div class="lines">
         <div class="language-skill">
@@ -60,20 +62,39 @@
     </div>
 
     <div class="projects" id="projects">
-      <h class="Title">Projects</h>
-      <p class="Description">A showcase of my work, from addons to coding creative projects.</p>
+      <h class="Title" sIDLanguage="projects">Projects</h>
 
-        <li class="deroulant"><a href="#">Cours Complets e</a>
-          <ul class="sous">
-            <li><a href="#">Cours HTML et CSS</a></li>
-            <li><a href="#">Cours JavaScript</a></li>
-            <li><a href="#">Cours PHP et MySQL</a></li>
-          </ul>
-        </li>
+      <div class="projects-grid" id="projectsGrid">
+        <p class="Description" sIDLanguage="DescProjects">A showcase of my work, from addons to coding creative projects.</p>
 
-      <footer>
-        <p>&copy; 2025 Vitroze. Tous droits réservés.</p>
-      </footer>
+        <div class="dropdown">
+          <button onclick="toggleDropdownMenu()" class="dropbtn">
+            <span class="btn-text">Tous</span>
+            <img src="resource/logos/chevron-down.svg" alt="Arrow" />
+          </button>
+
+          <div id="myDropdown" class="dropdown-content">
+            <p class="lang-option" sLang="sEveryone", sIDLanguage="All">Everyone</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="projects-list" id="projectsList">
+        <div class="project-card">
+          <!-- <img class="project-image" src="resource/projects/project1.png" alt="Project 1" /> -->
+          <p class="project-title">Vehicle Customizer</p>
+          <desc class="project-description">Tool that can be used for ELS compatibility with SVMOD, VCMOD vehicles.  It allows you to generate a code with a single accessory on a vehicle.</desc>
+          <div class="project-links">
+            <a href="https://example.com/project1">View Project</a>
+            <a href="https://github.com/Vitroze/VehicleCustomizer">Download</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 Vitroze. Tous droits réservés.</p>
+    </footer>
 
       <script src="script.js"></script>
   </body>

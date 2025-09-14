@@ -1,3 +1,161 @@
+/* ===== Responsiveness ===== */
+
+/* Tablettes (768px - 1024px) */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 15px 30px;
+    }
+
+    .navbar .nav-title {
+        font-size: 20px;
+    }
+
+    .navbar .nav-links a {
+        font-size: 16px;
+        margin-left: 20px;
+    }
+
+    .home .Hello {
+        font-size: 48px;
+    }
+
+    .home .Name {
+        font-size: 100px;
+    }
+
+    .home .Description {
+        font-size: 20px;
+    }
+
+    .skills {
+        padding: 0px 30px;
+    }
+
+    .skills .Title {
+        font-size: 40px;
+    }
+
+    .skills .Description {
+        font-size: 20px;
+    }
+
+    .skills .lines .language-skill {
+        min-width: 300px;
+        height: 70px;
+    }
+
+    .skills .lines .language-skill .lang-name {
+        font-size: 20px;
+        left: 80px;
+    }
+
+    .projects {
+        padding: 80px 30px;
+        height: auto;
+        margin-bottom: 150px;
+    }
+
+    .projects .Title {
+        font-size: 40px;
+    }
+
+    .projects .Description {
+        font-size: 20px;
+    }
+
+    .project-card {
+        width: 400px;
+        height: 220px;
+    }
+}
+
+/* Mobiles (max-width: 767px) */
+@media (max-width: 767px) {
+    .navbar {
+        flex-direction: column;
+        padding: 10px 20px;
+        gap: 10px;
+    }
+
+    .navbar .nav-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .navbar .nav-links a {
+        font-size: 14px;
+        margin-left: 0;
+    }
+
+    .home .Hello {
+        font-size: 36px;
+    }
+
+    .home .Name {
+        font-size: 60px;
+    }
+
+    .home .Description {
+        font-size: 16px;
+    }
+
+    .skills {
+        padding: 0px 20px;
+    }
+
+    .skills .Title {
+        font-size: 32px;
+    }
+
+    .skills .Description {
+        font-size: 18px;
+    }
+
+    .skills .lines {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .skills .lines .language-skill {
+        min-width: 100%;
+        height: 60px;
+    }
+
+    .skills .lines .language-skill .lang-name {
+        font-size: 18px;
+        left: 70px;
+    }
+
+    .projects {
+        padding: 50px 20px;
+        margin-bottom: 100px;
+    }
+
+    .projects .Title {
+        font-size: 32px;
+    }
+
+    .projects .Description {
+        font-size: 18px;
+    }
+
+    .projects-grid {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .project-card {
+        width: 100%;
+        height: 200px;
+    }
+
+    .dropbtn {
+        width: 100%;
+    }
+}
+
 * {
     text-decoration: none;
 }
@@ -95,11 +253,7 @@ body {
 .navbar .nav-links a:hover {
     color: #ffffff;
     opacity: 1;
-}
-
-.navbar .nav-links a:focus {
-    color: #ffff;
-    opacity: 1;
+    cursor: pointer;
 }
 
 .navbar .nav-right {
@@ -209,15 +363,12 @@ body {
 }
 
 .skills .lines {
-    width: 100%;
     display: flex;
     margin-top: 50px;
-    flex-wrap: wrap;
     gap: 30px;
 }
 
 .skills .lines .Desc {
-    width: 75%;
     font-size: 20px;
     font-weight: 500;
     color: rgba(161, 161, 170, 0.80);
@@ -226,7 +377,7 @@ body {
 
 .skills .lines .language-skill {
   position: relative;
-  width: 417px;
+  min-width: 417px;
   height: 81px;
   background: #0B0B0B;
   border-radius: 20px;
@@ -314,8 +465,8 @@ body {
 .skills .lines .language-skill .lang-logo,
 .skills .lines .language-skill .lang-name,
 .skills .lines .language-skill .lang-stars {
-  opacity: 0;              /* état initial */
-  transform: translateY(20px); /* ou autre translation initiale */
+  opacity: 0;
+  transform: translateY(20px);
   transition: all 0.8s ease-out;
 }
 
@@ -355,6 +506,23 @@ body {
   transform: translateY(10px);
 }
 
+@keyframes RotationStar {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(75deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.skills .lines .language-skill .lang-stars.visible .lang-star:hover {
+  animation: RotationStar 1.8s linear infinite;
+}
+
+
 .skills .lines .Desc.visible {
     animation: textLeftDesc 0.8s ease-out forwards;
     animation-delay: 0s;
@@ -386,16 +554,52 @@ body {
     color: rgba(161, 161, 170, 0.80);
 }
 
-.deroulant {
-    position: relative;
-    width: 270px;
-    height: 48px;
-    background: #0B0B0B;
-    border-radius: 20px;
-    overflow: hidden;
+.dropdown {
+  width: 270px;
+  height: 48px;
+  position: relative;
+  display: inline-block;
 }
 
-.deroulant::before, .sous::before {
+.dropbutton {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 270px;
+  height: 48px;
+  padding-left: 20px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.projects-grid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.dropbtn {
+  width: 270px;
+  height: 48px;
+  background-color: #0B0B0B;
+  border-radius: 20px;
+  color: white;
+  padding: 10px 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+
+.dropbtn::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -414,83 +618,83 @@ body {
   opacity: 0.3;
 }
 
-@keyframes gradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.deroulant:hover::before, .sous:hover::before {
+.dropbtn:hover::before {
   animation: gradientShift 1.5s linear infinite;
 }
 
-.deroulant ul {
-    text-decoration: none;
-    list-style-type: none;
+.dropbtn img {
+  width: 16px;
+  height: 16px;
+  transform: rotate(0deg);              /* état fermé */
+  transition: transform 0.8s ease-in-out; /* fluide dans les deux sens */
 }
 
-ul li {
-    float: left;
-    width: 25%;
-    text-align: center;
-    position: relative;
+.dropbtn.open img {
+  transform: rotate(180deg);            /* état ouvert */
 }
 
-.deroulant ul::after {
-    content: "";
-    display: table;
-    clear: both;
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  border-radius: 5px;
+  z-index: 1;
 }
 
-.deroulant a {
-    display: block;
-    text-decoration: none;
-    color: rgb(255, 255, 255);
-    border-bottom: 2px solid transparent;
-    padding: 10px 0px;
+.dropdown-content p {
+  color: black;
+  padding: 12px 16px;
+  display: block;
+  cursor: pointer;
+  margin: 0;
 }
 
-/* .deroulant a:hover {
-    color: orange;
-    border-bottom: 2px solid gold;
-} */
-
-.sous{
-    display: none;
-    position: absolute;
-    width: 100%;
-    z-index: 1000;
-    overflow: hidden;
-}
-ul li:hover .sous{
-    display: block;
-}
-.sous li{
-    float: none;
-    width: 100%;
-    text-align: left;
-}
-.sous a{
-    padding: 10px;
-    border-bottom: none;
-}
-.sous a:hover{
-    border-bottom: none;
-    background-color: RGBa(200,200,200,0.1);
+.dropdown-content p:hover {
+  background-color: #f1f1f1;
+  border-radius: 5px;
 }
 
-.deroulant > a::after{
-    content:"";
-    font-size: 12px;
+.show {
+  display: block;
 }
 
-.conteneur{
-  margin: 50px 20px;
-  height: 1500px;
+.btn-text {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.project-card {
+  position: relative;
+  width: 495px;
+  height: 260px;
+  background: #0B0B0B;
+  border-radius: 20px;
+  overflow: hidden;
+  color: white;
+}
+
+.project-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 2px;
+  border-radius: 20px;
+  background: linear-gradient(-68deg, #FFFFFF 0%, rgba(153, 153, 153, 0.3) 100%);
+  background-size: 200% 200%;
+  -webkit-mask: 
+    linear-gradient(#fff 0 0) content-box, 
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  pointer-events: none;
+  transition: all 0.3s;
+
+  opacity: 0.3;
+}
+
+.project-card:hover::before {
+  animation: gradientShift 1.5s linear infinite;
 }

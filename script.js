@@ -850,45 +850,52 @@ const tLanguages = {
   // Cpp: "logos/cpp.svg",
   // Batch: "logos/batch.svg",
   [1]: {
-    sName: "GLua",
+    sName: "LUA/GLua",
     mLogo: "logos/lua_glua.svg",
     iStars: 3,
+    sIDLanguage: "DescGLua",
     sDesc : "Developed a wide range of custom addons on the game Garry’s Mod, gaining in-depth expertise in Lua and GLua scripting."
   },
   [2]: {
     sName: "Python",
     mLogo: "logos/python.svg",
     iStars: 3,
+    sIDLanguage: "DescPython",
     sDesc: "Built scripts, automation tools, and small applications, refining logic and problem-solving skills.",
   },
   [3]: {
     sName: "JavaScript",
     mLogo: "logos/js.svg",
     iStars: 2,
+    sIDLanguage: "DescJS",
     sDesc: "Created interactive and dynamic functionalities, enhancing user experiences with efficient scripting.",
   },
   [4]: {
     sName: "HTML/CSS",
     mLogo: "logos/html_css.svg",
     iStars: 2,
+    sIDLanguage: "DescHTML_CSS",
     sDesc: "Designed and structured modern web pages, focusing on clean markup, responsive layouts, and visual coherence."
   },
   [5]: {
     sName: "C#",
     mLogo: "logos/csharp.svg",
     iStars: 2,
+    sIDLanguage: "DescCSharp",
     sDesc: "Worked on object-oriented projects, learning to structure code efficiently and implement practical solutions."
   },
   [6]: {
     sName: "C++",
     mLogo: "logos/cpp.svg",
     iStars: 1,
+    sIDLanguage: "DescCpp",
     sDesc: "Applied object-oriented and procedural programming concepts while exploring low-level systems."
   },
   [7]: {
     sName: "Batch",
     mLogo: "logos/batch.svg",
     iStars: 1,
+    sIDLanguage: "DescBatch",
     sDesc: "Wrote scripts to automate repetitive tasks, improving workflow efficiency and task management."
   },
 };
@@ -921,20 +928,31 @@ for (let iID in tLanguages) {
     eStarsDiv.classList.add("lang-stars");
     eLangSkill.appendChild(eStarsDiv);
 
-    iStar = 0;
+    let iStar = 0;
     for (let i = 0; i < 3; i++) {
 
-      iStar = iStar + 1, tLang.iStars;
+      iStar = iStar + 1;
 
       const eStar = document.createElement("img");
       eStar.src = `/resource/${iStar <= tLang.iStars ? "star_fill.svg" : "star.svg"}`;
+      eStar.classList.add("lang-star");
       eStarsDiv.appendChild(eStar);
     }
 
     const eDesc = document.createElement("p");
     eDesc.classList.add("Desc");
-    eDesc.textContent = tLang.sDesc;
+   // eDesc.textContent = tLang.sDesc;
+    eDesc.setAttribute("sIDLanguage", tLang.sIDLanguage);
     eLang.appendChild(eDesc);
+  }
+
+  const eDropDown = document.getElementById("myDropdown");
+  if (eDropDown) {
+    const eLangButton = document.createElement("p");
+    eLangButton.href = "#";
+    eLangButton.textContent = tLang.sName;
+    eLangButton.setAttribute("sLang", tLang.sName);
+    eDropDown.appendChild(eLangButton);
   }
 }
 
@@ -954,3 +972,126 @@ const observer = new IntersectionObserver((entries, observer) => {
 // Observer les éléments
 document.querySelectorAll('.language-skill, .Desc, .lang-logo, .lang-name, .lang-stars')
   .forEach(el => observer.observe(el));
+
+
+function toggleDropdownMenu() {
+  document.getElementById("myDropdown").classList.toggle("show");
+  document.querySelector(".dropbtn").classList.toggle("open");
+}
+
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    for (var i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+        document.querySelector(".dropbtn").classList.remove("open");
+      }
+    }
+  }
+}
+
+document.querySelectorAll('.dropdown-content p').forEach(item => {
+  item.addEventListener('click', event => {
+    document.querySelector(".dropbtn .btn-text").textContent = item.getAttribute('sLang');
+  });
+});
+
+if (!localStorage.getItem("sLang")) {
+  localStorage.setItem("sLang", "fr");
+}
+
+tStringsEn = {
+  "about": "About Me",
+  "skills": "Skills",
+  "projects": "Projects",
+  "hi": "Hi",
+  "Name": "I'm Vitroze",
+  "Description": "French game developer passionate about Lua and Python, with years of experience crafting custom addons for Garry’s Mod and exploring new dimensions of creativity.",
+  "DescSkills": "Languages and tools I’ve honed to tackle any coding challenge.",
+  "DescGLua": "Developed a wide range of custom addons on the game Garry’s Mod, gaining in-depth expertise in Lua and GLua scripting.",
+  "DescPython": "Built scripts, automation tools, and small applications, refining logic and problem-solving skills.",
+  "DescJS": "Created interactive and dynamic functionalities, enhancing user experiences with efficient scripting.",
+  "DescHTML_CSS": "Designed and structured modern web pages, focusing on clean markup, responsive layouts, and visual coherence.",
+  "DescCSharp": "Worked on object-oriented projects, learning to structure code efficiently and implement practical solutions.",
+  "DescCpp": "Applied object-oriented and procedural programming concepts while exploring low-level systems.",
+  "DescBatch": "Wrote scripts to automate repetitive tasks, improving workflow efficiency and task management.",
+  "DescProjects": "A showcase of my work, from addons to coding creative projects.",
+  "All": "All",
+}
+
+tStringsFr = {
+  "about": "À propos de moi",
+  "skills": "Compétences",
+  "projects": "Projets",
+  "hi": "Salut",
+  "Name": "Je suis Vitroze",
+  "Description": "Développeur de jeux français passionné par Lua et Python, avec des années d'expérience dans la création d'addons personnalisés pour Garry's Mod et l'exploration de nouvelles dimensions de créativité.",
+  "DescSkills": "Langages et outils que j'ai perfectionnés pour relever tous les défis de codage.",
+  "DescGLua": "Développement d'une large gamme d'addons personnalisés sur le jeu Garry's Mod, acquérant une expertise approfondie en scripting Lua et GLua.",
+  "DescPython": "Création de scripts, d'outils d'automatisation et de petites applications, affinant les compétences en logique et en résolution de problèmes.",
+  "DescJS": "Création de fonctionnalités interactives et dynamiques, améliorant l'expérience utilisateur grâce à un scripting efficace.",
+  "DescHTML_CSS": "Conception et structuration de pages web modernes, en mettant l'accent sur un balisage propre, des mises en page réactives et une cohérence visuelle.",
+  "DescCSharp": "Travail sur des projets orientés objet, apprenant à structurer le code efficacement et à mettre en œuvre des solutions pratiques.",
+  "DescCpp": "Application des concepts de programmation orientée objet et procédurale tout en explorant les systèmes bas niveau.",
+  "DescBatch": "Rédaction de scripts pour automatiser les tâches répétitives, améliorant l'efficacité du flux de travail et la gestion des tâches.",
+  "DescProjects": "Une vitrine de mon travail, des addons à la création de projets créatifs.",
+  "All": "Tous",
+};
+
+// fetch('languages/en.json')
+//   .then(response => response.json())
+//   .then(data => {
+//     tStringsEn = data;
+//   })
+//   .catch(error => console.error("Erreur:", error));
+
+// fetch('languages/fr.json')
+//   .then(response => response.json())
+//   .then(data => {
+//     tStringsFr = data;
+//   })
+//   .catch(error => console.error("Erreur:", error));
+
+function loadDefaultLanguage() {
+  const sLang = localStorage.getItem("sLang");
+  console.log("Loading language: " + sLang);
+
+  const mIcon = document.getElementById("lang-icon");
+  if (sLang === "en") {
+    mIcon.src = "resource/nav/fr.svg";
+  } else if (sLang === "fr") {
+    mIcon.src = "resource/nav/en.svg";
+  }
+
+  document.documentElement.lang = sLang;
+  const tStrings = sLang === "en" ? tStringsEn : tStringsFr;
+
+  for (let key in tStrings) {
+   // const oElement = document.querySelector(`[sIDLanguage="${key}"]`) || document.getElementById(key) || document.getElementsByClassName(key)[0];
+
+    const tElements = document.querySelectorAll(`[sIDLanguage="${key}"], #${key}, .${key}`);
+    tElements.forEach(oElement => {
+        console.log(oElement);
+      if (oElement) {
+        if (oElement.hasAttribute("sIDLanguage")) {
+          oElement.textContent = tStrings[key];
+        }
+      }
+    });
+
+
+    // if (oElement) {
+    //   oElement.textContent = tStrings[key];
+    // }
+  }
+}
+
+loadDefaultLanguage();
+
+document.getElementById("lang-select").addEventListener("click", function() {
+  localStorage.setItem("sLang", localStorage.getItem("sLang") === "fr" ? "en" : "fr");
+
+  loadDefaultLanguage();
+});
