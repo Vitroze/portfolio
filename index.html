@@ -1,81 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PortFolio Vitroze - Home</title>
+    <title>PortFolio Vitroze</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
 
     <link
       href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+
   </head>
   <body>
-    <div class="loading">
-      <div class="loading_text">
-        <img src="resource/wave.svg" alt="Wave" class="loading_wave" />
-        <p class="loading_p">
-          This page is actually<span class="loading_animation">loading</span>...
-        </p>
+    <div class="home" id="about">
+      <nav class="navbar">
+        <p class="nav-title">Vitroze</p>
+        <div class="nav-links">
+          <a href="#about" sIDLanguage="about">About</a>
+          <a href="#skills" sIDLanguage="skills">Skills</a>
+          <a href="#projects" sIDLanguage="projects">Projects</a>
+        </div>
+
+        <div class="nav-right">
+          <a href="https://discord.com/users/348537418045194250"> <img src="resource/nav/discord.svg"/></a>
+          <a href="https://github.com/Vitroze"> <img src="resource/nav/github.svg"/></a>
+          <a href="#" id="lang-select"><img id="lang-icon" src="resource/nav/fr.svg" alt="" /></a>
+      </nav>
+
+      <div class="intro">
+        <p class="Hello" sIDLanguage="hi">Hi,</p>
+        <p class="Name" sIDLanguage="Name">I'm Vitroze</p>
+        <p class="Description" sIDLanguage="Description">French game developer passionate about Lua and Python, with years of experience crafting custom addons for Garry’s Mod and exploring new dimensions of creativity.</p>
       </div>
 
-      <div class="loading-parent-circle">
-        <div class="loading-center-circle">
-          <div class="loading-outer-circle"></div>
-          <div class="loading-circle">
-            <div class="loading-rotating-arc"></div>
+      <div class="circle"></div>
+      <div class="bar"></div>
+    </div>
+
+    <div class="skills" id="skills">
+      <h class="Title" sIDLanguage = "skills" >Skills</h>
+      <p class="Description" sIDLanguage = "DescSkills" >Languages and tools I’ve honed to tackle any coding challenge.</p>
+
+      <div class="lines">
+        <div class="language-skill">
+          <img class="lang-logo" src="resource/logos/python.svg" alt="Python" />
+          <p class="lang-name">Python T'e</p>
+
+          <div class="lang-stars">
+            <img src="resource/star_fill.svg" alt="1 star" />
+            <img src="resource/star.svg" alt="1 star" />
+            <img src="resource/star.svg" alt="1 star" />
+          </div>
+        </div>
+
+        <p class="Desc">Developed a wide range of custom addons on the game Garry’s Mod, gaining in-depth expertise in Lua and GLua scripting.Developed a wide range of custom addons on the game Garry’s Mod, gaining in-depth expertise in Lua and GLua scripting.</p>
+      </div>
+
+    </div>
+
+    <div class="projects" id="projects">
+      <h class="Title" sIDLanguage="projects">Projects</h>
+
+      <div class="projects-grid" id="projectsGrid">
+        <p class="Description" sIDLanguage="DescProjects">A showcase of my work, from addons to coding creative projects.</p>
+
+        <div class="dropdown">
+          <button onclick="toggleDropdownMenu()" class="dropbtn">
+            <span class="btn-text">Tous</span>
+            <img src="resource/logos/chevron-down.svg" alt="Arrow" />
+          </button>
+
+          <div id="myDropdown" class="dropdown-content">
+            <p class="lang-option" sLang="All", sIDLanguage="All">Everyone</p>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="welcome">
-      <img src="resource/wave.svg" alt="Wave" class="wave" />
-      <h1 class="welcome_title">
-        Hey I'm <span class="welcome_name">Vitroze,</span>
-      </h1>
+      <div class="projects-list" id="projectsList">
+      </div>
     </div>
-
-    <div class="job">
-      <img src="resource/flag_french.svg" alt="Developer" class="job_icon" />
-      <p>Developer</p>
-    </div>
-
-    <nav class="navbar">
-      <a href="about_me.html"
-        ><li class="navbar_list">
-          About <span class="selectbar_bold">Me</span>
-        </li></a
-      >
-      <a href="my_skills.html"
-        ><li class="navbar_list">
-          My <span class="selectbar_bold">Skills</span>
-        </li></a
-      >
-      <a href="my_creations.html">
-        <li class="navbar_list">
-          My <span class="selectbar_bold">Creations</span>
-        </li></a
-      >
-    </nav>
 
     <footer>
-      <div class="discord">
-        <img
-          src="resource/footer/discord.svg"
-          alt="Discord Icon"
-          class="icon"
-        />
-        <span>@vitroze_gaming</span>
+      <div class="footer-background">
+        <span>VITROZE</span>
+        <div class="gradient-blur">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
-      <div class="github">
-        <img src="resource/footer/github.svg" alt="GitHub Icon" class="icon" />
-        <a href="https://github.com/Vitroze"><span>Vitroze</span></a>
+      <div class="footer-info">
+        <p class="footer-title">Vitroze</p>
+        <p sIDLanguage="DescFooter">This is my personal portfolio, showcasing my skills, projects, and journey as a developer.</p>
+      </div>
+
+      <div class="footer-right">
+        <div class="footer-sitemap">
+          <p>Site Map</p>
+          <a href="#about" sIDLanguage="about">About</a>
+          <a href="#skills" sIDLanguage="skills">Skills</a>
+          <a href="#projects" sIDLanguage="projects">Projects</a>
+        </div>
+
+        <div class="footer-socials">
+          <p>Socials</p>
+          <a href="https://github.com/Vitroze">GitHub</a>
+          <a href="https://discord.com/users/348537418045194250">Discord</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p sIDLanguage="CopyRight">&copy; 2025 - Vitroze - All rights reserved</p>
+        <a href="https://discord.com/users/874371280177102889" sIDLanguage="Pizu">Designed by Pizu</a>
       </div>
     </footer>
 
-    <script src="script.js" defer></script>
+    <script src="script.js"></script>
   </body>
 </html>
