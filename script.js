@@ -1679,30 +1679,98 @@ function loadProject(sLang = "All") {
 
       if (tProject.sMedia && Array.isArray(tProject.sMedia) && tProject.sMedia.length > 0) {
         const eButton = document.createElement("button");
-        eButton.onclick = () => {
-        };
         eButton.classList.add("details");
         oDivLinks.appendChild(eButton);
 
         const oMore = document.createElement("img");
         oMore.src = "resource/arrow.svg";
         eButton.appendChild(oMore);
+
+        eButton.addEventListener("click", () => {
+          // Create the modal background
+          const modalBackground = document.createElement("div");
+          modalBackground.classList.add("blur-background");
+          document.body.appendChild(modalBackground);
+
+          const noScroll = document.createElement("div");
+          noScroll.classList.add("no-scroll");
+          document.body.appendChild(noScroll);
+
+          const oPreviewContainer = document.createElement("div");
+          oPreviewContainer.classList.add("preview-container");
+          document.body.appendChild(oPreviewContainer);
+
+          const oPreviewTrack = document.createElement("div");
+          oPreviewTrack.classList.add("preview-track");
+          oPreviewContainer.appendChild(oPreviewTrack);
+
+          for (let i = 0; i < tProject.sMedia.length; i++) {
+            const media = tProject.sMedia[i];
+
+            console.log(media.sLink);
+            const eMedia = document.createElement(
+              media.sType === "Image"
+                ? "img"
+                : media.sLink.includes("youtube")
+                ? "iframe"
+                : "video"
+            );
+
+            eMedia.src = "media.sLink";
+            eMedia.classList.add("preview-item");
+
+            oPreviewTrack.appendChild(eMedia);
+            if (media.sType === "Video" && eMedia.tagName === "VIDEO") {
+              eMedia.autoplay = true;
+              eMedia.loop = true;
+              eMedia.controls = true;
+              if (media.bNoSound) {
+                eMedia.muted = true;
+              }
+            }
+
+            // Afficher les cercles (dot)
+            const oDotContainer = document.createElement("div");
+            oDotContainer.classList.add("preview-dots");
+            oPreviewContainer.appendChild(oDotContainer);
+
+            for (let j = 0; j < tProject.sMedia.length; j++) {
+              const oDot = document.createElement("div");
+              oDot.classList.add("dot");
+              if (j === 0) oDot.classList.add("active");
+              oDotContainer.appendChild(oDot);
+
+              oDot.addEventListener("click", () => {
+                oPreviewTrack.style.transform = `translateX(-${j * 100}%)`;
+                oDotContainer.querySelectorAll('.dot').forEach(d => d.classList.remove('active'));
+                oDot.classList.add('active');
+              });
+            }
+          }
+
+          // Close modal on background click
+          modalBackground.addEventListener("click", () => {
+            document.body.removeChild(modalBackground);
+            document.body.removeChild(oPreviewContainer);
+            document.body.removeChild(noScroll);
+          });
+        });
+
+        if (tProject && tProject.sLink != "Private" && tProject.sLink) {
+          const eButton = document.createElement("button");
+          eButton.onclick = () => {
+            window.open(tProject.sLink, "_blank", "noopener,noreferrer");
+          };
+          eButton.classList.add("download");
+          oDivLinks.appendChild(eButton);
+
+          const eArrow = document.createElement("img");
+          eArrow.src = "resource/download.svg";
+          eButton.appendChild(eArrow);
+        }
       }
 
-      if (tProject && tProject.sLink != "Private" && tProject.sLink) {
-        const eButton = document.createElement("button");
-        eButton.onclick = () => {
-          window.open(tProject.sLink, "_blank", "noopener,noreferrer");
-        };
-        eButton.classList.add("download");
-        oDivLinks.appendChild(eButton);
-
-        const eArrow = document.createElement("img");
-        eArrow.src = "resource/download.svg";
-        eButton.appendChild(eArrow);
-      }
     }
-
   }
 }
 
@@ -1717,3 +1785,4 @@ document.querySelectorAll('.dropdown-content p').forEach(item => {
     loadProject(item.getAttribute('sLang') === "All" ? "All" : item.getAttribute('sLang'));
   });
 });
+{/* <iframe width="560" height="315" src="https://www.youtube.com/embed/MaurIeozN0g?si=21p-0KG9yd9Xtq8o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> */}
