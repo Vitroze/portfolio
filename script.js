@@ -59,7 +59,6 @@ const tLanguages = {
 
 for (let iID in tLanguages) {
   const tLang = tLanguages[iID];
-  console.log(tLang);
 
   const eCategoryLang = document.querySelector(".skills");
   if (eCategoryLang) {
@@ -98,7 +97,6 @@ for (let iID in tLanguages) {
 
     const eDesc = document.createElement("p");
     eDesc.classList.add("Desc");
-   // eDesc.textContent = tLang.sDesc;
     eDesc.setAttribute("sIDLanguage", tLang.sIDLanguage);
     eLang.appendChild(eDesc);
   }
@@ -116,22 +114,20 @@ for (let iID in tLanguages) {
 }
 
 const observerOptions = {
-  threshold: 0.2  // 20% visible pour déclencher
+  threshold: 0.2,
 };
 
 const observer = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
     if(entry.isIntersecting){
-      entry.target.classList.add('visible'); // ajoute la classe pour déclencher l'animation
-      observer.unobserve(entry.target);       // facultatif, pour ne déclencher qu'une fois
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
     }
   });
 }, observerOptions);
 
-// Observer les éléments
 document.querySelectorAll('.language-skill, .Desc, .lang-logo, .lang-name, .lang-stars')
   .forEach(el => observer.observe(el));
-
 
 function toggleDropdownMenu() {
   document.getElementById("myDropdown").classList.toggle("show");
@@ -151,10 +147,8 @@ window.onclick = function(event) {
   }
 }
 
-
-
 if (!localStorage.getItem("sLang")) {
-  localStorage.setItem("sLang", "fr");
+  localStorage.setItem("sLang", "en");
 }
 
 tStringsEn = {
@@ -205,23 +199,8 @@ tStringsFr = {
   "Pizu": "Conçu par Pizu"
 };
 
-// fetch('languages/en.json')
-//   .then(response => response.json())
-//   .then(data => {
-//     tStringsEn = data;
-//   })
-//   .catch(error => console.error("Erreur:", error));
-
-// fetch('languages/fr.json')
-//   .then(response => response.json())
-//   .then(data => {
-//     tStringsFr = data;
-//   })
-//   .catch(error => console.error("Erreur:", error));
-
 function loadDefaultLanguage() {
   const sLang = localStorage.getItem("sLang");
-  console.log("Loading language: " + sLang);
 
   const mIcon = document.getElementById("lang-icon");
   if (sLang === "en") {
@@ -234,22 +213,14 @@ function loadDefaultLanguage() {
   const tStrings = sLang === "en" ? tStringsEn : tStringsFr;
 
   for (let key in tStrings) {
-   // const oElement = document.querySelector(`[sIDLanguage="${key}"]`) || document.getElementById(key) || document.getElementsByClassName(key)[0];
-
     const tElements = document.querySelectorAll(`[sIDLanguage="${key}"], #${key}, .${key}`);
     tElements.forEach(oElement => {
-        console.log(oElement);
       if (oElement) {
         if (oElement.hasAttribute("sIDLanguage")) {
           oElement.textContent = tStrings[key];
         }
       }
     });
-
-
-    // if (oElement) {
-    //   oElement.textContent = tStrings[key];
-    // }
   }
 }
 
@@ -840,7 +811,6 @@ function loadProject(sLang = "All") {
         eButton.appendChild(oMore);
 
         eButton.addEventListener("click", () => {
-          // Create the modal background
           const modalBackground = document.createElement("div");
           modalBackground.classList.add("blur-background");
           document.body.appendChild(modalBackground);
@@ -856,7 +826,6 @@ function loadProject(sLang = "All") {
           for (let i = 0; i < tProject.sMedia.length; i++) {
             const media = tProject.sMedia[i];
 
-            console.log(media.sLink);
             const eMedia = document.createElement(
               media.sType === "Image"
                 ? "img"
@@ -878,7 +847,6 @@ function loadProject(sLang = "All") {
               }
             }
 
-            // Afficher les cercles (dot)
             const oDotContainer = document.createElement("div");
             oDotContainer.classList.add("preview-dots");
             oPreviewContainer.appendChild(oDotContainer);
@@ -897,7 +865,6 @@ function loadProject(sLang = "All") {
             }
           }
 
-          // Close modal on background click
           modalBackground.addEventListener("click", () => {
             document.body.removeChild(modalBackground);
             document.body.removeChild(oPreviewContainer);
@@ -928,8 +895,6 @@ loadProject();
 document.querySelectorAll('.dropdown-content p').forEach(item => {
   item.addEventListener('click', event => {
     document.querySelector(".dropbtn .btn-text").textContent = item.getAttribute('sLang');
-
-    console.log("Selected language: " + item.getAttribute('sLang'));
 
     loadProject(item.getAttribute('sLang') === "All" ? "All" : item.getAttribute('sLang'));
   });
