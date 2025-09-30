@@ -31,7 +31,7 @@ const tLanguages = {
   },
   [6]: {
     sName: "SQL",
-    mLogo: "logos/sql.svg",
+    mLogo: "logos/sql.png",
     iStars: 2,
     bNoShow: true,
     sIDLanguage: "DescSQL",
