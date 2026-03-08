@@ -171,7 +171,7 @@ tStringsEn = {
   "DescProjects": "A showcase of my work, from addons to coding creative projects.",
   "All": "All",
   "DescFooter": "This is my personal portfolio, showcasing my skills, projects, and journey as a developer.",
-  "CopyRight": "© 2025 - Vitroze - All rights reserved",
+  "CopyRight": "© {Year} - Vitroze - All rights reserved",
   "Pizu": "Designed by Pizu"
 }
 
@@ -195,7 +195,7 @@ tStringsFr = {
   "DescProjects": "Une vitrine de mon travail, des addons à la création de projets créatifs.",
   "All": "Tous",
   "DescFooter": "Ceci est mon portfolio personnel, présentant mes compétences, mes projets et mon parcours en tant que développeur.",
-  "CopyRight": "© 2025 - Vitroze - Tous droits réservés",
+  "CopyRight": "© {Year} - Vitroze - Tous droits réservés",
   "Pizu": "Conçu par Pizu"
 };
 
@@ -213,11 +213,16 @@ function loadDefaultLanguage() {
   const tStrings = sLang === "en" ? tStringsEn : tStringsFr;
 
   for (let key in tStrings) {
+    let sTranslate = tStrings[key];
+    if (key == "CopyRight") {
+      sTranslate = sTranslate.replace("{Year}", new Date().getFullYear());
+    }
+
     const tElements = document.querySelectorAll(`[sIDLanguage="${key}"], #${key}, .${key}`);
     tElements.forEach(oElement => {
       if (oElement) {
         if (oElement.hasAttribute("sIDLanguage")) {
-          oElement.textContent = tStrings[key];
+          oElement.textContent = sTranslate;
         }
       }
     });
