@@ -369,18 +369,19 @@ function loadProject(sLang = "All") {
           });
         });
 
-        if (tProject && tProject.sLink != "Private" && tProject.sLink) {
-          const eButton = document.createElement("button");
-          eButton.onclick = () => {
-            window.open(tProject.sLink, "_blank", "noopener,noreferrer");
-          };
-          eButton.classList.add("download");
-          oDivLinks.appendChild(eButton);
+      }
 
-          const eArrow = document.createElement("img");
-          eArrow.src = "resource/download.svg";
-          eButton.appendChild(eArrow);
-        }
+      if (tProject && tProject.sLink != "Private" && tProject.sLink) {
+        const eButton = document.createElement("button");
+        eButton.onclick = () => {
+          window.open(tProject.sLink, "_blank", "noopener,noreferrer");
+        };
+        eButton.classList.add("download");
+        oDivLinks.appendChild(eButton);
+
+        const eArrow = document.createElement("img");
+        eArrow.src = "resource/download.svg";
+        eButton.appendChild(eArrow);
       }
 
     }
@@ -412,7 +413,6 @@ function loadJSON() {
         tLanguages = {};
         for (const [sID, skill] of Object.entries(data.languages)) {
           const iID = skill.order || Object.keys(tLanguages).length + 1;
-          console.log(`Loading skill: ${skill.name} with ID: ${sID} and order: ${iID}`);
           let sIDLanguage = (skill.description.en || skill.description.fr) ? "Desc" + skill.name.replace(/\s+/g, '') : "";
           sIDLanguage = sIDLanguage.replace(/\s+/g, ''); // Remove spaces from the ID
           sIDLanguage = sIDLanguage.replace(/[^a-zA-Z0-9]/g, '_'); // Remove special characters from the ID
