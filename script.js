@@ -292,7 +292,6 @@ function loadProject(sLang = "All") {
       oDivLinks.classList.add("project-links");
       eProject.appendChild(oDivLinks);
 
-      console.log(tProject)
       if (tProject.aMedia && Array.isArray(tProject.aMedia) && tProject.aMedia.length > 0) {
         const eButton = document.createElement("button");
         eButton.classList.add("details");
