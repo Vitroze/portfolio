@@ -29,7 +29,7 @@ function normalize(json) {
 
 function load_dropdown() {
   document.querySelectorAll('.dropdown-content p').forEach(item => {
-    item.addEventListener('click', event => {
+    item.addEventListener('click', _ => {
       document.querySelector(".dropbtn .btn-text").textContent = item.textContent;
 
       loadProject(item.getAttribute('sLang') === "All" ? "All" : item.getAttribute('sLang'));
