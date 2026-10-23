@@ -1,120 +1,173 @@
-const tLanguages = {
-  [1]: {
-    sName: "LUA/GLua",
-    mLogo: "logos/lua_glua.svg",
-    iStars: 3,
-    sIDLanguage: "DescGLua",
-  },
-  [2]: {
-    sName: "Python",
-    mLogo: "logos/python.svg",
-    iStars: 3,
-    sIDLanguage: "DescPython",
-  },
-  [3]: {
-    sName: "JavaScript",
-    mLogo: "logos/js.svg",
-    iStars: 2,
-    sIDLanguage: "DescJS",
-  },
-  [4]: {
-    sName: "HTML/CSS",
-    mLogo: "logos/html_css.svg",
-    iStars: 2,
-    sIDLanguage: "DescHTML_CSS",
-  },
-  [5]: {
-    sName: "C#",
-    mLogo: "logos/csharp.svg",
-    iStars: 2,
-    sIDLanguage: "DescCSharp",
-  },
-  [6]: {
-    sName: "SQL",
-    mLogo: "logos/sql.png",
-    iStars: 2,
-    bNoShow: true,
-    sIDLanguage: "DescSQL",
-  },
-  [7]: {
-    sName: "GIT",
-    mLogo: "logos/git.svg",
-    iStars: 1,
-    sIDLanguage: "DescGit",
-    bNoShow: true,
-  },
-  [8]: {
-    sName: "C++",
-    mLogo: "logos/cpp.svg",
-    iStars: 1,
-    sIDLanguage: "DescCpp",
-  },
-  [9]: {
-    sName: "Batch",
-    mLogo: "logos/batch.svg",
-    iStars: 1,
-    sIDLanguage: "DescBatch",
-  },
+let tLanguages = {
+  // [1]: {
+  //   sName: "LUA/GLua",
+  //   mLogo: "logos/lua_glua.svg",
+  //   iStars: 3,
+  //   sIDLanguage: "DescGLua",
+  // },
+  // [2]: {
+  //   sName: "Python",
+  //   mLogo: "logos/python.svg",
+  //   iStars: 3,
+  //   sIDLanguage: "DescPython",
+  // },
+  // [3]: {
+  //   sName: "JavaScript",
+  //   mLogo: "logos/js.svg",
+  //   iStars: 2,
+  //   sIDLanguage: "DescJS",
+  // },
+  // [4]: {
+  //   sName: "HTML/CSS",
+  //   mLogo: "logos/html_css.svg",
+  //   iStars: 2,
+  //   sIDLanguage: "DescHTML_CSS",
+  // },
+  // [5]: {
+  //   sName: "C#",
+  //   mLogo: "logos/csharp.svg",
+  //   iStars: 2,
+  //   sIDLanguage: "DescCSharp",
+  // },
+  // [6]: {
+  //   sName: "SQL",
+  //   mLogo: "logos/sql.png",
+  //   iStars: 2,
+  //   bNoShow: true,
+  //   sIDLanguage: "DescSQL",
+  // },
+  // [7]: {
+  //   sName: "GIT",
+  //   mLogo: "logos/git.svg",
+  //   iStars: 1,
+  //   sIDLanguage: "DescGit",
+  //   bNoShow: true,
+  // },
+  // [8]: {
+  //   sName: "C++",
+  //   mLogo: "logos/cpp.svg",
+  //   iStars: 1,
+  //   sIDLanguage: "DescCpp",
+  // },
+  // [9]: {
+  //   sName: "Batch",
+  //   mLogo: "logos/batch.svg",
+  //   iStars: 1,
+  //   sIDLanguage: "DescBatch",
+  // },
 };
 
-for (let iID in tLanguages) {
-  const tLang = tLanguages[iID];
+const txt = v => ({ en: "", fr: "", ...(typeof v === "string" ? { en: v } : v) });
+function normalize(json) {
+    const d = json && typeof json === "object" ? json : {};
 
+    d.version = d.version || 1;
+    d.languages = d.languages || {};
+
+    d.ui = d.ui || {};
+    Object.keys(d.ui).forEach(k => { d.ui[k] = txt(d.ui[k]); });
+
+    d.about = d.about || {};
+    ["hello", "name", "description"].forEach(k => { d.about[k] = txt(d.about[k]); });
+
+    d.skills = d.skills || [];
+    d.skills.forEach(s => { s.description = txt(s.description); s.stars = Number(s.stars) || 0; });
+
+    d.projects = d.projects || [];
+    d.projects.forEach(p => {
+        p.title = p.title || "";
+        p.description = txt(p.description);
+        p.languages = p.languages || [];
+        p.media = p.media || [];
+        p.link = p.link || null;
+    });
+    return d;
+}
+
+function load_dropdown() {
+  document.querySelectorAll('.dropdown-content p').forEach(item => {
+    item.addEventListener('click', event => {
+      document.querySelector(".dropbtn .btn-text").textContent = item.textContent;
+
+      loadProject(item.getAttribute('sLang') === "All" ? "All" : item.getAttribute('sLang'));
+    });
+  });
+}
+
+
+function loadSkills() {
   const eCategoryLang = document.querySelector(".skills");
   if (eCategoryLang) {
-    const eLang = document.createElement("div");
-    eLang.classList.add("lines");
-    eCategoryLang.appendChild(eLang);
+    eCategoryLang.innerHTML = "";
 
-    const eLangSkill = document.createElement("div");
-    eLangSkill.classList.add("language-skill");
-    eLang.appendChild(eLangSkill);
-
-    const eLangLogo = document.createElement("img");
-    eLangLogo.src = `/resource/${tLang.mLogo}`;
-    eLangLogo.classList.add("lang-logo");
-    eLangSkill.appendChild(eLangLogo);
-
-    const eLangInfo = document.createElement("div");
-    eLangInfo.classList.add("lang-info");
-    eLangSkill.appendChild(eLangInfo);
-
-    const eLangName = document.createElement("h2");
-    eLangName.textContent = tLang.sName;
-    eLangName.classList.add("lang-name");
-    eLangInfo.appendChild(eLangName);
-
-    const eStarsDiv = document.createElement("div");
-    eStarsDiv.classList.add("lang-stars");
-    eLangInfo.appendChild(eStarsDiv);
-
-    let iStar = 0;
-    for (let i = 0; i < 3; i++) {
-
-      iStar = iStar + 1;
-
-      const eStar = document.createElement("img");
-      eStar.src = `/resource/${iStar <= tLang.iStars ? "star_fill.svg" : "star.svg"}`;
-      eStar.classList.add("lang-star");
-      eStarsDiv.appendChild(eStar);
+    const eDropDown = document.getElementById("myDropdown");
+    if (eDropDown) {
+      const eDropDownItems = eDropDown.querySelectorAll("p");
+      eDropDownItems.forEach(item => {
+        if (item.getAttribute("sLang") !== "All") {
+          item.remove();
+        }
+      });
     }
 
-    const eDesc = document.createElement("p");
-    eDesc.classList.add("Desc");
-    eDesc.setAttribute("sIDLanguage", tLang.sIDLanguage);
-    eLang.appendChild(eDesc);
+    for (let iID in tLanguages) {
+      const tLang = tLanguages[iID];
+      if (!tLang) continue;
+
+      const eLang = document.createElement("div");
+      eLang.classList.add("lines");
+      eCategoryLang.appendChild(eLang);
+
+      const eLangSkill = document.createElement("div");
+      eLangSkill.classList.add("language-skill");
+      eLang.appendChild(eLangSkill);
+
+      const eLangLogo = document.createElement("img");
+      eLangLogo.src = tLang.mLogo;
+      eLangLogo.classList.add("lang-logo");
+      eLangSkill.appendChild(eLangLogo);
+
+      const eLangInfo = document.createElement("div");
+      eLangInfo.classList.add("lang-info");
+      eLangSkill.appendChild(eLangInfo);
+
+      const eLangName = document.createElement("h2");
+      eLangName.textContent = tLang.sName;
+      eLangName.classList.add("lang-name");
+      eLangInfo.appendChild(eLangName);
+
+      const eStarsDiv = document.createElement("div");
+      eStarsDiv.classList.add("lang-stars");
+      eLangInfo.appendChild(eStarsDiv);
+
+      let iStar = 0;
+      for (let i = 0; i < 3; i++) {
+        iStar = iStar + 1;
+
+        const eStar = document.createElement("img");
+        eStar.src = `/resource/${iStar <= tLang.iStars ? "star_fill.svg" : "star.svg"}`;
+        eStar.classList.add("lang-star");
+        eStarsDiv.appendChild(eStar);
+      }
+
+      const eDesc = document.createElement("p");
+      eDesc.classList.add("Desc");
+      eDesc.setAttribute("sIDLanguage", tLang.sIDLanguage);
+      eLang.appendChild(eDesc);
+
+      if (tLang.bNoShow) continue;
+
+      if (eDropDown) {
+        const eLangButton = document.createElement("p");
+        eLangButton.href = "#";
+        eLangButton.textContent = tLang.sName;
+        eLangButton.setAttribute("sLang", tLang.id);
+        eDropDown.appendChild(eLangButton);
+      }
+    }
   }
 
-  if (tLang.bNoShow) continue;
-
-  const eDropDown = document.getElementById("myDropdown");
-  if (eDropDown) {
-    const eLangButton = document.createElement("p");
-    eLangButton.href = "#";
-    eLangButton.textContent = tLang.sName;
-    eLangButton.setAttribute("sLang", tLang.sName);
-    eDropDown.appendChild(eLangButton);
-  }
+  load_dropdown();
 }
 
 const observerOptions = {
@@ -130,8 +183,13 @@ const observer = new IntersectionObserver((entries, observer) => {
   });
 }, observerOptions);
 
-document.querySelectorAll('.language-skill, .Desc, .lang-logo, .lang-name, .lang-stars')
-  .forEach(el => observer.observe(el));
+function reload_observer() {
+  observer.disconnect();
+  document.querySelectorAll('.language-skill, .Desc, .lang-logo, .lang-name, .lang-stars')
+    .forEach(el => observer.observe(el));
+}
+
+reload_observer();
 
 function toggleDropdownMenu() {
   document.getElementById("myDropdown").classList.toggle("show");
@@ -159,9 +217,9 @@ tStringsEn = {
   "about": "About Me",
   "skills": "Skills",
   "projects": "Projects",
-  "hi": "Hi",
-  "Name": "I'm Vitroze",
-  "Description": "French game developer passionate about Lua and Python, with years of experience crafting custom addons for Garry’s Mod and exploring new dimensions of creativity.",
+  "hello": "Hi",
+  "name": "I'm Vitroze",
+  "description": "French game developer passionate about Lua and Python, with years of experience crafting custom addons for Garry’s Mod and exploring new dimensions of creativity.",
   "DescSkills": "Languages and tools I’ve honed to tackle any coding challenge.",
   "DescGLua": "Developed a wide range of custom addons on the game Garry’s Mod, gaining in-depth expertise in Lua and GLua scripting.",
   "DescPython": "Built scripts, automation tools, and small applications, refining logic and problem-solving skills.",
@@ -183,9 +241,9 @@ tStringsFr = {
   "about": "À propos de moi",
   "skills": "Compétences",
   "projects": "Projets",
-  "hi": "Salut",
-  "Name": "Je suis Vitroze",
-  "Description": "Développeur de jeux français passionné par Lua et Python, avec des années d'expérience dans la création d'addons personnalisés pour Garry's Mod et l'exploration de nouvelles dimensions de créativité.",
+  "hello": "Salut",
+  "name": "Je suis Vitroze",
+  "description": "Développeur de jeux français passionné par Lua et Python, avec des années d'expérience dans la création d'addons personnalisés pour Garry's Mod et l'exploration de nouvelles dimensions de créativité.",
   "DescSkills": "Langages et outils que j'ai perfectionnés pour relever tous les défis de codage.",
   "DescGLua": "Développement d'une large gamme d'addons personnalisés sur le jeu Garry's Mod, acquérant une expertise approfondie en scripting Lua et GLua.",
   "DescPython": "Création de scripts, d'outils d'automatisation et de petites applications, affinant les compétences en logique et en résolution de problèmes.",
@@ -223,6 +281,10 @@ function loadDefaultLanguage() {
     }
 
     const tElements = document.querySelectorAll(`[sIDLanguage="${key}"], #${key}, .${key}`);
+    if (tElements.length === 0) {
+      console.warn(`No elements found for key: ${key}`);
+    }
+
     tElements.forEach(oElement => {
       if (oElement) {
         if (oElement.hasAttribute("sIDLanguage")) {
@@ -241,544 +303,537 @@ document.getElementById("lang-select").addEventListener("click", function() {
   loadDefaultLanguage();
 });
 
-const tProjects = {
-  [1]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "Vehicle Customizer",
-    sDescription:
-      "Tool that can be used for ELS compatibility with SVMOD, VCMOD vehicles. It allows you to generate a code with a single accessory on a vehicle.",
-    sMedia: [
-      {
-        sType: "Video",
-        sLink:
-          "https://www.youtube.com/embed/MaurIeozN0g?si=VQAgiZH9dINcy46m",
-      },
-      {
-        sType: "Image",
-        sLink:
-          "https://steamuserimages-a.akamaihd.net/ugc/1945021378798297557/918B34A4F219B5678C61629F3F87740DE64632C2/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false",
-      },
-    ],
-    sLink:
-      "https://steamcommunity.com/sharedfiles/filedetails/?id=2891598626",
-  },
-  [2]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "NightVision",
-    sDescription:
-      "A system owned by VLife Group. A system that allows you to turn the light off/on. The player won't see anything in the room, unless he has nightvision.",
-    sMedia: [
-      {
-        sType: "Video",
-        sLink:
-          "https://www.youtube.com/embed/5ugCQMiLx_I?si=36CYY-fNSOvXPYSJ",
-      },
-    ],
-    sLink: "Private",
-  },
-  [3]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "Inventory & Accessories",
-    sDescription:
-      "A system owned by VLife Group. A system that allows you to manage your inventory. You can add, remove, use items.",
-    sMedia: [
-      {
-        sType: "Video",
-        sLink:
-          "https://www.youtube.com/embed/URUY-sE8Zxk?si=XzWc1dXHkIU2JZ5I",
-      },
-    ],
-    sLink: "Private",
-  },
-  [4]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "ALPR",
-    sDescription:
-      "A system owned by VLife Group. A system that allows you to scan a vehicle's license plate. It will display the owner's name, the vehicle's model and the vehicle's color.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/alpr.png",
-      },
-    ],
-    sLink: "Private",
-  },
-  [5]: {
-    sLang: {
-      [1]: "C#",
-    },
-    sTitle: "Callout Manager - LSPDFR",
-    sDescription: "A callout manager for LSPDFR (GTA V).",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink:
-          "https://s3-screenshots.int-cdn.lcpdfrusercontent.com/monthly_2024_10/20241021123229_1.jpg.e8d01f36fa644626a570e3b93d2ec385.jpg",
-      },
-      {
-        sType: "Image",
-        sLink:
-          "https://s3-screenshots.int-cdn.lcpdfrusercontent.com/monthly_2024_10/20241021121219_1.jpg.ab467fa1b039a9b1a92ab22ad78f07fc.jpg",
-      },
-    ],
-    sLink:
-      "https://www.lcpdfr.com/downloads/gta5mods/scripts/49067-callout-launcher/",
-  },
-  [6]: {
-    sLang: {
-      [1]: "C#",
-    },
-    sTitle: "French Callout - LSPDFR",
-    sDescription: "A callout for LSPDFR (GTA V). PROJECT OUTDATED.",
-    sMedia: [],
-    sLink: "Private",
-  },
-  [7]: {
-    sLang: {
-      [1]: "C++",
-    },
-    sTitle: "KeyPad - Arduino",
-    sDescription:
-      "A simple arduino project that lets you type code on the screen. If the code is good, it will emit a sound; if it's bad, it will emit a different sound.",
-    sMedia: [
-      {
-        sType: "Video",
-        sLink: "resource/creations/keypad_arduino.mp4",
-        bNoSound: true,
-      },
-    ],
-    sLink: "Private",
-  },
+let tProjects = {
+  // [1]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "Vehicle Customizer",
+  //   sDescription:
+  //     "Tool that can be used for ELS compatibility with SVMOD, VCMOD vehicles. It allows you to generate a code with a single accessory on a vehicle.",
+  //   sMedia: [
+  //     {
+  //       sType: "Video",
+  //       sLink:
+  //         "https://www.youtube.com/embed/MaurIeozN0g?si=VQAgiZH9dINcy46m",
+  //     },
+  //     {
+  //       sType: "Image",
+  //       sLink:
+  //         "https://steamuserimages-a.akamaihd.net/ugc/1945021378798297557/918B34A4F219B5678C61629F3F87740DE64632C2/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false",
+  //     },
+  //   ],
+  //   sLink:
+  //     "https://steamcommunity.com/sharedfiles/filedetails/?id=2891598626",
+  // },
+  // [2]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "NightVision",
+  //   sDescription:
+  //     "A system owned by VLife Group. A system that allows you to turn the light off/on. The player won't see anything in the room, unless he has nightvision.",
+  //   sMedia: [
+  //     {
+  //       sType: "Video",
+  //       sLink:
+  //         "https://www.youtube.com/embed/5ugCQMiLx_I?si=36CYY-fNSOvXPYSJ",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
+  // [3]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "Inventory & Accessories",
+  //   sDescription:
+  //     "A system owned by VLife Group. A system that allows you to manage your inventory. You can add, remove, use items.",
+  //   sMedia: [
+  //     {
+  //       sType: "Video",
+  //       sLink:
+  //         "https://www.youtube.com/embed/URUY-sE8Zxk?si=XzWc1dXHkIU2JZ5I",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
+  // [4]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "ALPR",
+  //   sDescription:
+  //     "A system owned by VLife Group. A system that allows you to scan a vehicle's license plate. It will display the owner's name, the vehicle's model and the vehicle's color.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/alpr.png",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
+  // [5]: {
+  //   sLang: {
+  //     [1]: "C#",
+  //   },
+  //   sTitle: "Callout Manager - LSPDFR",
+  //   sDescription: "A callout manager for LSPDFR (GTA V).",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink:
+  //         "https://s3-screenshots.int-cdn.lcpdfrusercontent.com/monthly_2024_10/20241021123229_1.jpg.e8d01f36fa644626a570e3b93d2ec385.jpg",
+  //     },
+  //     {
+  //       sType: "Image",
+  //       sLink:
+  //         "https://s3-screenshots.int-cdn.lcpdfrusercontent.com/monthly_2024_10/20241021121219_1.jpg.ab467fa1b039a9b1a92ab22ad78f07fc.jpg",
+  //     },
+  //   ],
+  //   sLink:
+  //     "https://www.lcpdfr.com/downloads/gta5mods/scripts/49067-callout-launcher/",
+  // },
+  // [6]: {
+  //   sLang: {
+  //     [1]: "C#",
+  //   },
+  //   sTitle: "French Callout - LSPDFR",
+  //   sDescription: "A callout for LSPDFR (GTA V). PROJECT OUTDATED.",
+  //   sMedia: [],
+  //   sLink: "Private",
+  // },
+  // [7]: {
+  //   sLang: {
+  //     [1]: "C++",
+  //   },
+  //   sTitle: "KeyPad - Arduino",
+  //   sDescription:
+  //     "A simple arduino project that lets you type code on the screen. If the code is good, it will emit a sound; if it's bad, it will emit a different sound.",
+  //   sMedia: [
+  //     {
+  //       sType: "Video",
+  //       sLink: "resource/creations/keypad_arduino.mp4",
+  //       bNoSound: true,
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [8]: {
-    sLang: {
-      [1]: "Batch",
-    },
-    sTitle: "View History",
-    sDescription:
-      "A batch script that allows you to view the history web (OS : Windows). Created in 12/2021",
-    sMedia: [],
-    sLink: "Private",
-  },
+  // [8]: {
+  //   sLang: {
+  //     [1]: "Batch",
+  //   },
+  //   sTitle: "View History",
+  //   sDescription:
+  //     "A batch script that allows you to view the history web (OS : Windows). Created in 12/2021",
+  //   sMedia: [],
+  //   sLink: "Private",
+  // },
 
-  [9]: {
-    sLang: {
-      [1]: "C#",
-    },
-    sTitle: "App Desktop - PresentHTML",
-    sDescription:
-      "An application that allowed me to present my HTML project. Created for a school project",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/presentation_html.png",
-      },
-    ],
-    sLink: "Private",
-  },
+  // [9]: {
+  //   sLang: {
+  //     [1]: "C#",
+  //   },
+  //   sTitle: "App Desktop - PresentHTML",
+  //   sDescription:
+  //     "An application that allowed me to present my HTML project. Created for a school project",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/presentation_html.png",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [10]: {
-    sLang: {
-      [1]: "C#",
-    },
-    sTitle: "App Desktop - PresentJS",
-    sDescription:
-      "An application that allowed me to present my JS project. Created for a school project",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/presentation_js.png",
-      },
-    ],
-    sLink: "Private",
-  },
+  // [10]: {
+  //   sLang: {
+  //     [1]: "C#",
+  //   },
+  //   sTitle: "App Desktop - PresentJS",
+  //   sDescription:
+  //     "An application that allowed me to present my JS project. Created for a school project",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/presentation_js.png",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [11]: {
-    sLang: {
-      [1]: "C#",
-    },
-    sTitle: "App Desktop - Arduino",
-    sDescription:
-      "An application that allowed me to present my Arduino project. Created for a school project",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/presentation_arduino.png",
-      },
-    ],
-    sLink: "Private",
-  },
+  // [11]: {
+  //   sLang: {
+  //     [1]: "C#",
+  //   },
+  //   sTitle: "App Desktop - Arduino",
+  //   sDescription:
+  //     "An application that allowed me to present my Arduino project. Created for a school project",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/presentation_arduino.png",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [12]: {
-    sLang: {
-      [1]: "C#",
-    },
-    sTitle: "App Desktop - Motor",
-    sDescription:
-      "An application that allowed me to present my Motor project. Created for a school project",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/presentation_motor.png",
-      },
-    ],
-    sLink: "Private",
-  },
+  // [12]: {
+  //   sLang: {
+  //     [1]: "C#",
+  //   },
+  //   sTitle: "App Desktop - Motor",
+  //   sDescription:
+  //     "An application that allowed me to present my Motor project. Created for a school project",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/presentation_motor.png",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [13]: {
-    sLang: {
-      [1]: "C++",
-    },
-    sTitle: "Robot - Arduino",
-    sDescription:
-      "A simple arduino project that allows you to create several behaviors with a robot, such as following a black line or creating geometric shapes prepared in the code.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/robot_optimized_square.gif",
-      },
-      {
-        sType: "Image",
-        sLink: "resource/creations/robot_square.gif",
-      },
-      {
-        sType: "Image",
-        sLink: "resource/creations/robot_line.gif",
-      },
-    ],
-    sLink: "Private",
-  },
+  // [13]: {
+  //   sLang: {
+  //     [1]: "C++",
+  //   },
+  //   sTitle: "Robot - Arduino",
+  //   sDescription:
+  //     "A simple arduino project that allows you to create several behaviors with a robot, such as following a black line or creating geometric shapes prepared in the code.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/robot_optimized_square.gif",
+  //     },
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/robot_square.gif",
+  //     },
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/robot_line.gif",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [14]: {
-    sLang: {
-      [1]: "C#",
-    },
-    sTitle: "App Desktop - Robot",
-    sDescription:
-      "An application that allowed me to present my Robot project. Created for a school project",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/presentation_motor.png",
-      },
-    ],
-    sLink: "Private",
-  },
+  // [14]: {
+  //   sLang: {
+  //     [1]: "C#",
+  //   },
+  //   sTitle: "App Desktop - Robot",
+  //   sDescription:
+  //     "An application that allowed me to present my Robot project. Created for a school project",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/presentation_motor.png",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [15]: {
-    sLang: {
-      [1]: "Python",
-    },
-    sTitle: "Trello and Google Sheets",
-    sDescription:
-      "Creation of greater compatibility with the Trello and Google Sheet APIs. This compatibility is used to register all cards in a given category on Google Sheets and create a chart/stats. A system owned by VLife Group and Me.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/trello_googlesheet.png",
-      },
-    ],
-    sLink: "Private",
-  },
+  // [15]: {
+  //   sLang: {
+  //     [1]: "Python",
+  //   },
+  //   sTitle: "Trello and Google Sheets",
+  //   sDescription:
+  //     "Creation of greater compatibility with the Trello and Google Sheet APIs. This compatibility is used to register all cards in a given category on Google Sheets and create a chart/stats. A system owned by VLife Group and Me.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/trello_googlesheet.png",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [16]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "Event Zombie",
-    sDescription:
-      "Event Zombie (Halloween 2023) for VLife. This add-on allows you to simulate a transformation (human to zombie), and boost speed, jump and life. Ranking for those who infect the most people and kill the most zombies.",
-    sMedia: [
-      {
-        sType: "Video",
-        sLink:
-          "https://www.youtube.com/embed/9zuzJPSCGBA?si=73MAhUO7DOZHjM-m",
-      },
-    ],
-    sLink: "Private",
-  },
+  // [16]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "Event Zombie",
+  //   sDescription:
+  //     "Event Zombie (Halloween 2023) for VLife. This add-on allows you to simulate a transformation (human to zombie), and boost speed, jump and life. Ranking for those who infect the most people and kill the most zombies.",
+  //   sMedia: [
+  //     {
+  //       sType: "Video",
+  //       sLink:
+  //         "https://www.youtube.com/embed/9zuzJPSCGBA?si=73MAhUO7DOZHjM-m",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [17]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "VPet",
-    sDescription:
-      "Bring life to your server with VPets! This addon allows players to have their own virtual pets. Perfect for DarkRP, Sandbox, or any other gamemode, VPets add a layer of personality and fun to any Garry's Mod server!",
-    sMedia: [
-      {
-        sType: "Video",
-        sLink: "https://www.youtube.com/embed/i-CgVmHRlns",
-      },
-      {
-        sType: "Image",
-        sLink:
-          "https://media.gmodstore.com/460x/script_banners/93ccffab8a43cc4b33986af255757222.png",
-      },
-    ],
-    sLink:
-      "https://www.gmodstore.com/market/view/vpet-the-pet-system-you-need",
-  },
+  // [17]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "VPet",
+  //   sDescription:
+  //     "Bring life to your server with VPets! This addon allows players to have their own virtual pets. Perfect for DarkRP, Sandbox, or any other gamemode, VPets add a layer of personality and fun to any Garry's Mod server!",
+  //   sMedia: [
+  //     {
+  //       sType: "Video",
+  //       sLink: "https://www.youtube.com/embed/i-CgVmHRlns",
+  //     },
+  //     {
+  //       sType: "Image",
+  //       sLink:
+  //         "https://media.gmodstore.com/460x/script_banners/93ccffab8a43cc4b33986af255757222.png",
+  //     },
+  //   ],
+  //   sLink:
+  //     "https://www.gmodstore.com/market/view/vpet-the-pet-system-you-need",
+  // },
 
-  [18]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "DarkRP City Worker (MODIF)",
-    sDescription:
-      "A new mission has been added to make the traffic lights on the New York City map more dynamic.",
-    sMedia: [
-      {
-        sType: "Video",
-        sLink: "https://www.youtube.com/embed/nmjFlSdRDl8",
-      },
-    ],
-    sLink: "Private",
-  },
+  // [18]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "DarkRP City Worker (MODIF)",
+  //   sDescription:
+  //     "A new mission has been added to make the traffic lights on the New York City map more dynamic.",
+  //   sMedia: [
+  //     {
+  //       sType: "Video",
+  //       sLink: "https://www.youtube.com/embed/nmjFlSdRDl8",
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [19]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "Armory Police NextBot",
-    sDescription:
-      "A police armory that brings you your gun with a realistic system and a modern UI.",
-    sMedia: [
-      {
-        sType: "Video",
-        sLink: "resource/creations/armory_police.mp4",
-        bNoSound: true,
-      },
-    ],
-    sLink: "Private",
-  },
+  // [19]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "Armory Police NextBot",
+  //   sDescription:
+  //     "A police armory that brings you your gun with a realistic system and a modern UI.",
+  //   sMedia: [
+  //     {
+  //       sType: "Video",
+  //       sLink: "resource/creations/armory_police.mp4",
+  //       bNoSound: true,
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [20]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "Tracker Phone",
-    sDescription: "A system that can trace any telephone number on the map.",
-    sMedia: [
-      {
-        sType: "Video",
-        sLink: "resource/creations/tracker_phone.mp4",
-        bNoSound: true,
-      },
-    ],
-    sLink: "Private",
-  },
+  // [20]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "Tracker Phone",
+  //   sDescription: "A system that can trace any telephone number on the map.",
+  //   sMedia: [
+  //     {
+  //       sType: "Video",
+  //       sLink: "resource/creations/tracker_phone.mp4",
+  //       bNoSound: true,
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
 
-  [21]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "Clothing System",
-    sDescription:
-      "A system that allows you to change outfits while keeping the same head.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/clothing.png",
-        bNoSound: true,
-      },
-    ],
-    sLink: "Private",
-  },
-  [22]: {
-    sLang: {
-      [1]: "HTML/CSS",
-    },
-    sTitle: "Website - School",
-    sDescription: "Project for school.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/site.png",
-        bNoSound: true,
-      },
-    ],
-    sLink: "Private",
-  },
-  [23]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "History Sanction",
-    sDescription:
-      "A system owned by VLife Group. A system that tracks player sanctions, even those that have been deleted. Compatible: SAM & Awarn3",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/casier.png",
-      },
-    ],
-  },
-  [24]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "Escape Menu",
-    sDescription: "A system owned by VLife Group. A basic escape menu.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/escape_menu.png",
-      },
-    ],
-  },
-  [25]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "Animation Menu",
-    sDescription: "A system owned by VLife Group. A basic animation menu.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/animation_menu.png",
-      },
-    ],
-  },
-  [26]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "EMS System",
-    sDescription: "A system owned by VLife Group. A advanced EMS system.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/ems_menu.png",
-      },
-    ],
-  },
-  [27]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "F4 Menu",
-    sDescription:
-      "A system owned by VLife Group. A basic F4 menu (2 Design).",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/animation_menu.png",
-      },
-    ],
-  },
-  [28]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "HUD",
-    sDescription: "A system owned by VLife Group. A basic HUD (2 Design).",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/hud_fun.png",
-      },
-      {
-        sType: "Image",
-        sLink: "resource/creations/hud_serious.png",
-      },
-    ],
-  },
-  [29]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "NPC Employer",
-    sDescription: "A system owned by VLife Group. A basic NPC Employer.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/npc_employer.png",
-      },
-    ],
-  },
-  [30]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "Report Bug",
-    sDescription: "A system owned by VLife Group. A basic report bug menu.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/reportbug.png",
-      },
-    ],
-  },
-  [31]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "Daily Rewards",
-    sDescription:
-      "A system owned by VLife Group. A basic daily rewards (3 Design).",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/daily.png",
-      },
-    ],
-  },
-  [32]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "System TP",
-    sDescription: "A system owned by VLife Group. A basic system TP.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/tp_1.png",
-      },
-    ],
-  },
+  // [21]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "Clothing System",
+  //   sDescription:
+  //     "A system that allows you to change outfits while keeping the same head.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/clothing.png",
+  //       bNoSound: true,
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
+  // [22]: {
+  //   sLang: {
+  //     [1]: "HTML/CSS",
+  //   },
+  //   sTitle: "Website - School",
+  //   sDescription: "Project for school.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/site.png",
+  //       bNoSound: true,
+  //     },
+  //   ],
+  //   sLink: "Private",
+  // },
+  // [23]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "History Sanction",
+  //   sDescription:
+  //     "A system owned by VLife Group. A system that tracks player sanctions, even those that have been deleted. Compatible: SAM & Awarn3",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/casier.png",
+  //     },
+  //   ],
+  // },
+  // [24]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "Escape Menu",
+  //   sDescription: "A system owned by VLife Group. A basic escape menu.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/escape_menu.png",
+  //     },
+  //   ],
+  // },
+  // [25]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "Animation Menu",
+  //   sDescription: "A system owned by VLife Group. A basic animation menu.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/animation_menu.png",
+  //     },
+  //   ],
+  // },
+  // [26]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "EMS System",
+  //   sDescription: "A system owned by VLife Group. A advanced EMS system.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/ems_menu.png",
+  //     },
+  //   ],
+  // },
+  // [27]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "F4 Menu",
+  //   sDescription:
+  //     "A system owned by VLife Group. A basic F4 menu (2 Design).",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/animation_menu.png",
+  //     },
+  //   ],
+  // },
+  // [28]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "HUD",
+  //   sDescription: "A system owned by VLife Group. A basic HUD (2 Design).",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/hud_fun.png",
+  //     },
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/hud_serious.png",
+  //     },
+  //   ],
+  // },
+  // [29]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "NPC Employer",
+  //   sDescription: "A system owned by VLife Group. A basic NPC Employer.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/npc_employer.png",
+  //     },
+  //   ],
+  // },
+  // [30]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "Report Bug",
+  //   sDescription: "A system owned by VLife Group. A basic report bug menu.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/reportbug.png",
+  //     },
+  //   ],
+  // },
+  // [31]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "Daily Rewards",
+  //   sDescription:
+  //     "A system owned by VLife Group. A basic daily rewards (3 Design).",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/daily.png",
+  //     },
+  //   ],
+  // },
+  // [32]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "System TP",
+  //   sDescription: "A system owned by VLife Group. A basic system TP.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/tp_1.png",
+  //     },
+  //   ],
+  // },
 
-  [33]: {
-    sLang: {
-      [1]: "LUA/GLua",
-    },
-    sTitle: "Notification",
-    sDescription:
-      "A system owned by VLife Group. A basic system Notification.",
-    sMedia: [
-      {
-        sType: "Image",
-        sLink: "resource/creations/notification.png",
-      },
-    ],
-  },
+  // [33]: {
+  //   sLang: {
+  //     [1]: "LUA/GLua",
+  //   },
+  //   sTitle: "Notification",
+  //   sDescription:
+  //     "A system owned by VLife Group. A basic system Notification.",
+  //   sMedia: [
+  //     {
+  //       sType: "Image",
+  //       sLink: "resource/creations/notification.png",
+  //     },
+  //   ],
+  // },
 };
 
 function loadProject(sLang = "All") {
-
-  const eCategoryProjectOld = document.querySelector(".projects-list");
-  if (eCategoryProjectOld) {
-    eCategoryProjectOld.innerHTML = "";
-  }
-
   const eCategoryProject = document.querySelector(".projects-list");
   if (eCategoryProject) {
-
+    eCategoryProject.innerHTML = "";
     for (let iID in tProjects) {
       if (sLang !== "All" && !Object.values(tProjects[iID].sLang).includes(sLang)) {
         continue;
       }
 
       const tProject = tProjects[iID];
-      
       const eProject = document.createElement("div");
       eProject.classList.add("project-card");
       eCategoryProject.appendChild(eProject);
@@ -792,25 +847,29 @@ function loadProject(sLang = "All") {
       eDivTags.classList.add("project-tags");
       eProject.appendChild(eDivTags);
 
-      for (let sLang in tProject.sLang) {
+      for (let sID in tProject.sLang) {
+        let sLang = tProject.sLang[sID];
+        sLang = Object.values(tLanguages).find(lang => lang.id === sLang) ? Object.values(tLanguages).find(lang => lang.id === sLang).sName : sLang; // Use the name from tLanguages if available
+
         const eTag = document.createElement("span");
         eTag.classList.add("tag");
-        eTag.textContent = tProject.sLang[sLang];
+        eTag.textContent = sLang;
         eDivTags.appendChild(eTag);
       }
 
-      const sDesc = tProject.sDescription.length > 190 ? tProject.sDescription.substring(0, 190) + "..." : tProject.sDescription;
-
-      const oDesc = document.createElement("p");
-      oDesc.textContent = sDesc;
-      oDesc.classList.add("project-description");
-      eProject.appendChild(oDesc);
+      if (tProject.mDescription) {
+        const oDesc = document.createElement("p");
+        oDesc.textContent = tProject.mDescription[localStorage.getItem("sLang")] && tProject.mDescription[localStorage.getItem("sLang")].length > 190 ? tProject.mDescription[localStorage.getItem("sLang")].substring(0, 190) + "..." : tProject.mDescription[localStorage.getItem("sLang")] || "";
+        oDesc.classList.add("project-description");
+        eProject.appendChild(oDesc);
+      }
 
       const oDivLinks = document.createElement("div");
       oDivLinks.classList.add("project-links");
       eProject.appendChild(oDivLinks);
 
-      if (tProject.sMedia && Array.isArray(tProject.sMedia) && tProject.sMedia.length > 0) {
+      console.log(tProject)
+      if (tProject.aMedia && Array.isArray(tProject.aMedia) && tProject.aMedia.length > 0) {
         const eButton = document.createElement("button");
         eButton.classList.add("details");
         oDivLinks.appendChild(eButton);
@@ -832,22 +891,22 @@ function loadProject(sLang = "All") {
           oPreviewTrack.classList.add("preview-track");
           oPreviewContainer.appendChild(oPreviewTrack);
 
-          for (let i = 0; i < tProject.sMedia.length; i++) {
-            const media = tProject.sMedia[i];
+          for (let i = 0; i < tProject.aMedia.length; i++) {
+            const media = tProject.aMedia[i];
 
             const eMedia = document.createElement(
-              media.sType === "Image"
+              media.type === "image"
                 ? "img"
-                : media.sLink.includes("youtube")
+                : media.url.includes("youtube")
                 ? "iframe"
                 : "video"
             );
 
-            eMedia.src = media.sLink;
+            eMedia.src = media.url;
             eMedia.classList.add("preview-item");
 
             oPreviewTrack.appendChild(eMedia);
-            if (media.sType === "Video" && eMedia.tagName === "VIDEO") {
+            if (media.type === "video" && eMedia.tagName === "VIDEO") {
               eMedia.autoplay = true;
               eMedia.loop = true;
               eMedia.controls = true;
@@ -860,7 +919,7 @@ function loadProject(sLang = "All") {
             oDotContainer.classList.add("preview-dots");
             oPreviewContainer.appendChild(oDotContainer);
 
-            for (let j = 0; j < tProject.sMedia.length; j++) {
+            for (let j = 0; j < tProject.aMedia.length; j++) {
               const oDot = document.createElement("div");
               oDot.classList.add("dot");
               if (j === 0) oDot.classList.add("active");
@@ -877,7 +936,6 @@ function loadProject(sLang = "All") {
           modalBackground.addEventListener("click", () => {
             document.body.removeChild(modalBackground);
             document.body.removeChild(oPreviewContainer);
-            document.body.removeChild(noScroll);
           });
         });
 
@@ -901,10 +959,93 @@ function loadProject(sLang = "All") {
 
 loadProject();
 
-document.querySelectorAll('.dropdown-content p').forEach(item => {
-  item.addEventListener('click', event => {
-    document.querySelector(".dropbtn .btn-text").textContent = item.getAttribute('sLang');
+const DATA_URL = "https://raw.githubusercontent.com/Vitroze/portfolio-json/refs/heads/main/save_github.json";
+function loadJSON() {
+  fetch(DATA_URL)
+    .then(response => response.json())
+    .then(json => {
+      let data = json;
+      try {
+        data = normalize(data);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+      }
 
-    loadProject(item.getAttribute('sLang') === "All" ? "All" : item.getAttribute('sLang'));
-  });
-});
+      if (data.about) {
+        for (const [key, value] of Object.entries(data.about)) {
+          tStringsEn[key] = value.en || "";
+          tStringsFr[key] = value.fr || "";
+        }
+      }
+
+      if (data.languages) {
+        tLanguages = {};
+        for (const [sID, skill] of Object.entries(data.languages)) {
+          const iID = Object.keys(tLanguages).length + 1;
+
+          let sIDLanguage = (skill.description.en || skill.description.fr) ? "Desc" + skill.name.replace(/\s+/g, '') : "";
+          sIDLanguage = sIDLanguage.replace(/\s+/g, ''); // Remove spaces from the ID
+          sIDLanguage = sIDLanguage.replace(/[^a-zA-Z0-9]/g, '_'); // Remove special characters from the ID
+
+          tLanguages[iID] = {
+            sName: skill.name,
+            id: sID,
+            mLogo: skill.logo.startsWith("resource/") ? "https://raw.githubusercontent.com/Vitroze/portfolio-json/refs/heads/main/" + skill.logo : skill.logo,
+            iStars: skill.stars,
+            bNoShow: skill.hidden || false,
+            sIDLanguage: sIDLanguage,
+          };
+
+          if (sIDLanguage) {
+            tStringsEn[sIDLanguage] = skill.description.en || "";
+            tStringsFr[sIDLanguage] = skill.description.fr || "";
+          }
+
+            loadSkills();
+        };
+
+        if (data.projects) {
+          tProjects = {};
+          for (const [iID, project] of Object.entries(data.projects)) {
+            const iProjectID = Object.keys(tProjects).length + 1;
+
+            mediaArray = [];
+            if (project.media && Array.isArray(project.media)) {
+              mediaArray = project.media.map(media => {
+                if (media.url && media.url.startsWith("resource/")) {
+                  return {
+                    ...media,
+                    url: "https://raw.githubusercontent.com/Vitroze/portfolio-json/refs/heads/main/" + media.url
+                  };
+                }
+                return media;
+              });
+            }
+
+            tProjects[iProjectID] = {
+              sLang: project.languages.reduce((acc, lang) => {
+                acc[Object.keys(acc).length + 1] = lang;
+                return acc;
+              }, {}),
+              sTitle: project.title,
+              aLanguages: project.languages,
+              mDescription: project.description,
+              sLink: project.link,
+              aMedia: mediaArray,
+            };
+          }
+
+          loadProject();
+
+        }
+
+      }
+      reload_observer();
+      loadDefaultLanguage();
+    })
+    .catch(error => {
+      console.error("Error loading JSON:", error);
+    });
+}
+
+loadJSON();
