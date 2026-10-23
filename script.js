@@ -75,14 +75,18 @@ for (let iID in tLanguages) {
     eLangLogo.classList.add("lang-logo");
     eLangSkill.appendChild(eLangLogo);
 
+    const eLangInfo = document.createElement("div");
+    eLangInfo.classList.add("lang-info");
+    eLangSkill.appendChild(eLangInfo);
+
     const eLangName = document.createElement("h2");
     eLangName.textContent = tLang.sName;
     eLangName.classList.add("lang-name");
-    eLangSkill.appendChild(eLangName);
+    eLangInfo.appendChild(eLangName);
 
     const eStarsDiv = document.createElement("div");
     eStarsDiv.classList.add("lang-stars");
-    eLangSkill.appendChild(eStarsDiv);
+    eLangInfo.appendChild(eStarsDiv);
 
     let iStar = 0;
     for (let i = 0; i < 3; i++) {
