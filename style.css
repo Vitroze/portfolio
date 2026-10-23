@@ -321,7 +321,7 @@ body {
   border-radius: 20px;
   background: linear-gradient(135deg, #fff 0%, rgba(250,94,42,0.6) 50%, rgba(153,153,153,0.2) 100%);
   background-size: 300% 300%;
-  -webkit-mask:
+  mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
@@ -641,7 +641,7 @@ body {
   border-radius: 20px;
   background: linear-gradient(-68deg, #FFFFFF 0%, rgba(153, 153, 153, 0.3) 100%);
   background-size: 200% 200%;
-  -webkit-mask:
+  mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
@@ -753,7 +753,7 @@ body {
   border-radius: 20px;
   background: linear-gradient(135deg, #fff 0%, rgba(250,94,42,0.5) 50%, rgba(153,153,153,0.2) 100%);
   background-size: 300% 300%;
-  -webkit-mask:
+  mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: destination-out;
