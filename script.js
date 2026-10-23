@@ -389,7 +389,7 @@ function loadProject(sLang = "All") {
 
 loadProject();
 
-const DATA_URL = "https://raw.githubusercontent.com/Vitroze/portfolio-json/refs/heads/main/save_github.json";
+const DATA_URL = "https://raw.githubusercontent.com/Vitroze/portfolio-json/refs/heads/main/save_github.json?t=1";
 function loadJSON() {
   fetch(DATA_URL)
     .then(response => response.json())
@@ -411,8 +411,8 @@ function loadJSON() {
       if (data.languages) {
         tLanguages = {};
         for (const [sID, skill] of Object.entries(data.languages)) {
-          const iID = Object.keys(tLanguages).length + 1;
-
+          const iID = skill.order || Object.keys(tLanguages).length + 1;
+          console.log(`Loading skill: ${skill.name} with ID: ${sID} and order: ${iID}`);
           let sIDLanguage = (skill.description.en || skill.description.fr) ? "Desc" + skill.name.replace(/\s+/g, '') : "";
           sIDLanguage = sIDLanguage.replace(/\s+/g, ''); // Remove spaces from the ID
           sIDLanguage = sIDLanguage.replace(/[^a-zA-Z0-9]/g, '_'); // Remove special characters from the ID
