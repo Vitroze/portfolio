@@ -436,7 +436,7 @@ function loadJSON() {
 
         if (data.projects) {
           tProjects = {};
-          for (const [iID, project] of Object.entries(data.projects)) {
+          for (const [_, project] of Object.entries(data.projects)) {
             const iProjectID = Object.keys(tProjects).length + 1;
 
             mediaArray = [];
