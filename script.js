@@ -178,7 +178,8 @@ tStringsEn = {
   "DescFooter": "This is my personal portfolio, showcasing my skills, projects, and journey as a developer.",
   "CopyRight": "© {Year} - Vitroze - All rights reserved",
   "Pizu": "Designed by Pizu",
-  "PreviewHint": "Press Esc or click outside the image to close"
+  "PreviewHint": "Press Esc or click outside the image to close",
+  "LoadingText": "Loading..."
 }
 
 tStringsFr = {
@@ -203,7 +204,8 @@ tStringsFr = {
   "DescFooter": "Ceci est mon portfolio personnel, présentant mes compétences, mes projets et mon parcours en tant que développeur.",
   "CopyRight": "© {Year} - Vitroze - Tous droits réservés",
   "Pizu": "Conçu par Pizu",
-  "PreviewHint": "Appuyez sur Échap ou cliquez en dehors de l'image pour quitter"
+  "PreviewHint": "Appuyez sur Échap ou cliquez en dehors de l'image pour quitter",
+  "LoadingText": "Chargement..."
 };
 
 function loadDefaultLanguage() {
@@ -407,10 +409,24 @@ function loadProject(sLang = "All") {
 
 loadProject();
 
+document.body.classList.add("is-loading");
+
+function hideLoader() {
+  const eLoader = document.getElementById("loader");
+  document.body.classList.remove("is-loading");
+  if (!eLoader) return;
+
+  eLoader.classList.add("hidden");
+  setTimeout(() => eLoader.remove(), 600);
+}
+
 const DATA_URL = "https://raw.githubusercontent.com/Vitroze/portfolio-json/refs/heads/main/save_github.json?t=1";
 function loadJSON() {
   fetch(DATA_URL)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) throw new Error("HTTP " + response.status);
+      return response.json();
+    })
     .then(json => {
       let data = json;
       try {
@@ -492,7 +508,8 @@ function loadJSON() {
     })
     .catch(error => {
       console.error("Error loading JSON:", error);
-    });
+    })
+    .finally(hideLoader);
 }
 
 loadJSON();
