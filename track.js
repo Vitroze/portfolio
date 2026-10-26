@@ -1,15 +1,7 @@
-/* =========================================================
-   Mesure d'audience — envoie une visite au Worker de l'éditeur.
-   Sans cookie, sans stockage local, sans identifiant : le serveur déduit le reste.
-   Respecte « Do Not Track ».
-   ========================================================= */
 (function () {
   "use strict";
 
   var ENDPOINT = "https://editor.vitroze-dev.fr/api/collect";
-
-  if (ENDPOINT.indexOf("REMPLACER") !== -1) return;
-
   var host = location.hostname;
   if (location.protocol === "file:" || host === "localhost" || host === "127.0.0.1" || host === "") return;
   if (navigator.doNotTrack === "1" || window.doNotTrack === "1") return;
@@ -25,7 +17,6 @@
   };
 
   try {
-    // Corps en text/plain : requête CORS « simple », donc sans preflight.
     fetch(ENDPOINT, {
       method: "POST",
       body: JSON.stringify(payload),
