@@ -177,7 +177,8 @@ tStringsEn = {
   "All": "All",
   "DescFooter": "This is my personal portfolio, showcasing my skills, projects, and journey as a developer.",
   "CopyRight": "© {Year} - Vitroze - All rights reserved",
-  "Pizu": "Designed by Pizu"
+  "Pizu": "Designed by Pizu",
+  "PreviewHint": "Press Esc or click outside the image to close"
 }
 
 tStringsFr = {
@@ -201,7 +202,8 @@ tStringsFr = {
   "All": "Tous",
   "DescFooter": "Ceci est mon portfolio personnel, présentant mes compétences, mes projets et mon parcours en tant que développeur.",
   "CopyRight": "© {Year} - Vitroze - Tous droits réservés",
-  "Pizu": "Conçu par Pizu"
+  "Pizu": "Conçu par Pizu",
+  "PreviewHint": "Appuyez sur Échap ou cliquez en dehors de l'image pour quitter"
 };
 
 function loadDefaultLanguage() {
@@ -310,6 +312,12 @@ function loadProject(sLang = "All") {
           oPreviewContainer.classList.add("preview-container");
           document.body.appendChild(oPreviewContainer);
 
+          const oPreviewHint = document.createElement("p");
+          oPreviewHint.classList.add("preview-hint");
+          oPreviewHint.setAttribute("sIDLanguage", "PreviewHint");
+          oPreviewHint.textContent = (localStorage.getItem("sLang") === "en" ? tStringsEn : tStringsFr)["PreviewHint"];
+          document.body.appendChild(oPreviewHint);
+
           const oPreviewTrack = document.createElement("div");
           oPreviewTrack.classList.add("preview-track");
           oPreviewContainer.appendChild(oPreviewTrack);
@@ -363,10 +371,19 @@ function loadProject(sLang = "All") {
             });
           }
 
-          modalBackground.addEventListener("click", () => {
-            document.body.removeChild(modalBackground);
-            document.body.removeChild(oPreviewContainer);
-          });
+          const closePreview = () => {
+            document.removeEventListener("keydown", onKeyDown);
+            modalBackground.remove();
+            oPreviewContainer.remove();
+            oPreviewHint.remove();
+          };
+
+          const onKeyDown = (e) => {
+            if (e.key === "Escape") closePreview();
+          };
+
+          document.addEventListener("keydown", onKeyDown);
+          modalBackground.addEventListener("click", closePreview);
         });
 
       }

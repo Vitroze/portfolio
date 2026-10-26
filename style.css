@@ -943,6 +943,21 @@ body {
   border-radius: 10px;
 }
 
+.preview-hint {
+  position: fixed;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  width: 90%;
+  text-align: center;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+  z-index: 9999;
+  animation: modalBgIn 0.3s ease forwards;
+}
+
 .preview-dots {
   position: absolute;
   bottom: 0px;
