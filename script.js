@@ -173,7 +173,7 @@ tStringsEn = {
   "DescGit": "Utilized version control systems to manage codebases, collaborate effectively, and maintain project history.",
   "DescCpp": "Applied object-oriented and procedural programming concepts while exploring low-level systems.",
   "DescBatch": "Wrote scripts to automate repetitive tasks, improving workflow efficiency and task management.",
-  "DescProjects": "A showcase of my work, from addons to coding creative projects.",
+  "DescProjects": "A showcase of my work, from addons to coding creative projects (%d/%d).",
   "All": "All",
   "DescFooter": "This is my personal portfolio, showcasing my skills, projects, and journey as a developer.",
   "CopyRight": "© {Year} - Vitroze - All rights reserved",
@@ -199,7 +199,7 @@ tStringsFr = {
   "DescGit": "Utilisation de systèmes de contrôle de version pour gérer les bases de code, collaborer efficacement et maintenir l'historique des projets.",
   "DescCpp": "Application des concepts de programmation orientée objet et procédurale tout en explorant les systèmes bas niveau.",
   "DescBatch": "Rédaction de scripts pour automatiser les tâches répétitives, améliorant l'efficacité du flux de travail et la gestion des tâches.",
-  "DescProjects": "Une vitrine de mon travail, des addons à la création de projets créatifs.",
+  "DescProjects": "Une vitrine de mon travail, des addons à la création de projets créatifs (%d/%d).",
   "All": "Tous",
   "DescFooter": "Ceci est mon portfolio personnel, présentant mes compétences, mes projets et mon parcours en tant que développeur.",
   "CopyRight": "© {Year} - Vitroze - Tous droits réservés",
@@ -208,6 +208,7 @@ tStringsFr = {
   "LoadingText": "Chargement..."
 };
 
+let tProjects = {};
 function loadDefaultLanguage() {
   const sLang = localStorage.getItem("sLang");
 
@@ -225,6 +226,11 @@ function loadDefaultLanguage() {
     let sTranslate = tStrings[key];
     if (key == "CopyRight") {
       sTranslate = sTranslate.replace("{Year}", new Date().getFullYear());
+    }
+
+    if (key == "DescProjects" && tProjects) {
+      const totalProjects = Object.keys(tProjects).length;
+      sTranslate = sTranslate.replace("%d/%d", `${totalProjects}/${totalProjects}`);
     }
 
     const tElements = document.querySelectorAll(`[sIDLanguage="${key}"], #${key}, .${key}`);
@@ -250,18 +256,19 @@ document.getElementById("lang-select").addEventListener("click", function() {
   loadDefaultLanguage();
 });
 
-let tProjects = {};
-
 function loadProject(sLang = "All") {
   const eCategoryProject = document.querySelector(".projects-list");
   if (eCategoryProject) {
     eCategoryProject.innerHTML = "";
+
+    let count_projects = 0;
     for (let iID in tProjects) {
       if (sLang !== "All" && !Object.values(tProjects[iID].sLang).includes(sLang)) {
         continue;
       }
 
       const tProject = tProjects[iID];
+      count_projects++;
       const eProject = document.createElement("div");
       eProject.classList.add("project-card");
       eCategoryProject.appendChild(eProject);
@@ -404,6 +411,13 @@ function loadProject(sLang = "All") {
       }
 
     }
+
+    document.querySelectorAll("p[sIDLanguage='DescProjects']").forEach(oElement => {
+      if (oElement) {
+        const sTranslate = (localStorage.getItem("sLang") === "en" ? tStringsEn : tStringsFr)["DescProjects"];
+        oElement.textContent = sTranslate.replace("%d/%d", `${count_projects}/${tProjects ? Object.keys(tProjects).length : 0}`);
+      }
+    });
   }
 }
 
