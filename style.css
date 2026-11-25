@@ -1490,3 +1490,36 @@ footer p {
       height: 80%;
     }
 }
+
+.no-gpu .home .circle { animation: none; will-change: auto; }
+
+.no-gpu .blur-background { backdrop-filter: none; }
+
+.no-gpu .gradient-blur,
+.no-gpu .footer-background,
+.no-gpu .skills .lines .language-skill::after,
+.no-gpu .project-card::after { display: none; }
+
+.no-gpu .skills .lines * {
+  animation: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+}
+
+.no-gpu .skills .lines .language-skill::before,
+.no-gpu .project-card::before {
+  -webkit-mask: none;
+  mask: none;
+  padding: 0;
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.navbar .nav-right .optimize-button.active img {
+  opacity: 1;
+  filter: drop-shadow(0 0 4px #FA5E2A);
+}
+
+.no-gpu .navbar .nav-right .optimize-button.active img {
+  filter: brightness(0) saturate(100%) invert(52%) sepia(85%) saturate(2200%) hue-rotate(340deg);
+}

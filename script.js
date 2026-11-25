@@ -256,6 +256,23 @@ document.getElementById("lang-select").addEventListener("click", function() {
   loadDefaultLanguage();
 });
 
+function applyOptimization(isOptimized) {
+  document.documentElement.classList.toggle("no-gpu", isOptimized);
+
+  const button = document.getElementById("optimize-button");
+  button.classList.toggle("active", isOptimized);
+}
+
+document.getElementById("optimize-button").addEventListener("click", (event) => {
+  event.preventDefault();
+
+  const isOptimized = !document.documentElement.classList.contains("no-gpu");
+  localStorage.setItem("optimizeMode", String(isOptimized));
+  applyOptimization(isOptimized);
+});
+
+applyOptimization(localStorage.getItem("optimizeMode") === "true");
+
 function loadProject(sLang = "All") {
   const eCategoryProject = document.querySelector(".projects-list");
   if (eCategoryProject) {
@@ -485,9 +502,9 @@ function loadJSON() {
             tStringsEn[sIDLanguage] = skill.description.en || "";
             tStringsFr[sIDLanguage] = skill.description.fr || "";
           }
-
-            loadSkills();
         };
+
+        loadSkills();
 
         if (data.projects) {
           tProjects = {};
