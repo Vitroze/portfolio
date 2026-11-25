@@ -381,6 +381,7 @@ function loadProject(sLang = "All") {
           }
 
           const closePreview = () => {
+            console.log("Closing preview");
             document.removeEventListener("keydown", onKeyDown);
             modalBackground.remove();
             oPreviewContainer.remove();
