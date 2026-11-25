@@ -381,7 +381,6 @@ function loadProject(sLang = "All") {
           }
 
           const closePreview = () => {
-            console.log("Closing preview");
             document.removeEventListener("keydown", onKeyDown);
             modalBackground.remove();
             oPreviewContainer.remove();
@@ -392,8 +391,16 @@ function loadProject(sLang = "All") {
             if (e.key === "Escape") closePreview();
           };
 
+          let start = Date.now() + 500;
           document.addEventListener("keydown", onKeyDown);
-          modalBackground.addEventListener("click", closePreview);
+          document.addEventListener("click", (e) => {
+            if (!document.body.contains(oPreviewContainer)) return;
+            if (Date.now() < start) return;
+
+            if (!e.target.closest(".preview-dots")) {
+              closePreview();
+            }
+          });
         });
 
       }
