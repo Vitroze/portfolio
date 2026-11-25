@@ -235,7 +235,7 @@ function loadDefaultLanguage() {
 
     const tElements = document.querySelectorAll(`[sIDLanguage="${key}"], #${key}, .${key}`);
     if (tElements.length === 0) {
-      console.warn(`No elements found for key: ${key}`);
+      continue;
     }
 
     tElements.forEach(oElement => {
